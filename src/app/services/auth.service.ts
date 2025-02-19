@@ -86,27 +86,45 @@ export class AuthService {
 
   logout() {
     console.log('🔹 Kijelentkezés megkezdése...');
-  
-    // 🔹 Előzetesen töröljük az MSAL interakciós állapotot
+
+    // 🔹 JWT token lekérése a localStorage-ból
+    const token = localStorage.getItem('token');
+    let isMicrosoftUser = false;
+
+    if (token) {
+        const decodedToken = this.parseJwt(token); // 🔹 Már meglévő parseJwt metódus
+        isMicrosoftUser = !!decodedToken['azureId']; // Ha az azureId létezik, akkor Microsoft user
+    }
+
+    // 🔹 Töröljük az interakciós állapotokat
     sessionStorage.removeItem('msal.interaction.status');
     localStorage.removeItem('msal.interaction.status');
-  
-    this.clearSession(); // JWT token és állapot törlése
-  
-    this.msalService.logoutPopup().subscribe({
-      next: () => {
-        console.log('✅ MSAL popup logout sikeres');
-        this.http.post(`${this.baseUrl}/logout`, {}).subscribe(() => {
-          console.log('✅ Backend kijelentkezés sikeres');
-          this.router.navigate(['/login']);
+
+    this.clearSession(); // JWT token törlése
+
+    if (isMicrosoftUser) {
+        console.log('🔹 Microsoft fiókkal bejelentkezett felhasználó - MSAL logout indul.');
+        this.msalService.logoutPopup().subscribe({
+            next: () => {
+                console.log('✅ MSAL popup logout sikeres');
+                this.http.post(`${this.baseUrl}/logout`, {}).subscribe(() => {
+                    console.log('✅ Backend kijelentkezés sikeres');
+                    this.router.navigate(['/login']);
+                });
+            },
+            error: (error) => {
+                console.warn('⚠️ MSAL popup logout sikertelen, próbálkozás redirecttel...', error);
+                this.msalService.logoutRedirect();
+            }
         });
-      },
-      error: (error) => {
-        console.warn('⚠️ MSAL popup logout sikertelen, próbálkozás redirecttel...', error);
-        this.msalService.logoutRedirect();
-      }
-    });
-  }
+    } else {
+        console.log('🔹 Normál felhasználó - Csak JWT törlése és átirányítás.');
+        this.http.post(`${this.baseUrl}/logout`, {}).subscribe(() => {
+            console.log('✅ Backend kijelentkezés sikeres');
+            this.router.navigate(['/login']);
+        });
+    }
+}
 
   setSession(token: string): void {
     if (!token) {
