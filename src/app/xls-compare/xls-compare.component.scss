@@ -85,16 +85,6 @@ opacity: 0.5;  /* Halványítja az elemet, hogy vizuálisan is inaktív legyen *
 cursor: not-allowed;
 }
 
-.grid-item mat-form-field {
-  width: 100%;
-}
-
-.download-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
 .summary-container {
 display: flex;
 flex-direction: column;
@@ -138,17 +128,12 @@ transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
   opacity: 1;
   transform: translateY(0);
   animation: fadeInDown 0.5s ease-in-out;
-}
+  }
 
 @media (max-width: 768px) {
   grid-template-columns: 1fr;
   grid-template-rows: auto auto;
-}
-}
-
-.result-container.show {
-opacity: 1;  /* Láthatóvá válik */
-transform: translateY(0); /* Visszacsúszik az eredeti helyére */
+  }
 }
 
 .divider {
@@ -167,9 +152,9 @@ align-self: center;
 from {
   opacity: 0;
   transform: translateY(-10px);
-}
+  }
 to {
   opacity: 1;
   transform: translateY(0);
-}
+  }
 }

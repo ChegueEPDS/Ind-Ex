@@ -140,7 +140,7 @@ private formatGroup(title: string, changes: any[]): SafeHtml {
                 const valueStr = String(value);
                 const match = valueStr.match(/(.*) \(régi: (.*)\)/);
                 return match
-                    ? `<div style="padding-left: 38px;">- <strong>${key}:</strong> ${match[1]} <span style="color:gray;">(régi: ${match[2]})</span></div>`
+                    ? `<div style="padding-left: 38px;">- <strong>${key}:</strong> ${match[1]} <span style="color:gray;">(Old: ${match[2]})</span></div>`
                     : `<div style="padding-left: 38px;">- <strong>${key}:</strong> ${valueStr}</div>`;
             })
             .join('');
@@ -156,8 +156,8 @@ private formatGroup(title: string, changes: any[]): SafeHtml {
 }
 
 private getBorderColor(status: string): string {
-    return status.includes("Törölt") ? "red" :
-           status.includes("Új") ? "green" :
+    return status.includes("Deleted") ? "red" :
+           status.includes("New") ? "green" :
            "orange";
 }
 
@@ -168,11 +168,43 @@ downloadXlsx(): void {
     return;
   }
 
+  // Létrehozunk egy <a> elemet a letöltéshez
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'comparison_result.xlsx'; // Megadható konkrét fájlnév
+  a.download = 'comparison_result.xlsx';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+  }
+
+newComparison(): void {
+  const url = this.downloadUrl();
+  
+  if (url) {
+    this.deleteFileFromServer(url);
+  }
+
+  // 🔹 Töröljük a kiválasztott fájlokat és az eredményeket
+  this.file1.set(null);
+  this.file2.set(null);
+  this.columnLetter.set('A');
+  this.comparisonResult.set([]);
+  this.sanitizedComparisonResult.set([]);
+  this.downloadUrl.set(null);
+  this.errorMessage.set(null);
+  this.responseReceived.set(false);
 }
+
+deleteFileFromServer(fileUrl: string): void {
+  const apiUrl = `${environment.apiUrl}/api/xls/delete-file?url=${encodeURIComponent(fileUrl)}`;
+
+  this.http.delete(apiUrl).subscribe({
+    next: () => {
+      console.log('✅ Fájl sikeresen törölve a szerverről.');
+    },
+    error: (err) => {
+      console.error('❌ Hiba történt a fájl törlésekor:', err);
+    }
+  });
+  }
 }
