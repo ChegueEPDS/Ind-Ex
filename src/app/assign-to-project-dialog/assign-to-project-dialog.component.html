@@ -1,0 +1,30 @@
+<div class="assign">
+<h2 mat-dialog-title>Assign to Project/Zone</h2>
+<div mat-dialog-content class="form">
+    <!-- Site kiválasztása -->
+    <mat-form-field appearance="fill">
+        <mat-label>Select Site</mat-label>
+        <mat-select [(ngModel)]="selectedSiteId" (selectionChange)="onSiteChange()">
+            <mat-option [value]="null">None</mat-option>
+            <mat-option *ngFor="let site of sites" [value]="site._id">
+                {{ site.Name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Zone kiválasztása -->
+    <mat-form-field appearance="fill" *ngIf="selectedSiteId">
+        <mat-label>Select Zone</mat-label>
+        <mat-select [(ngModel)]="selectedZoneId">
+            <mat-option [value]="null">None</mat-option>
+            <mat-option *ngFor="let zone of filteredZones" [value]="zone._id">
+                {{ zone.Name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+    <div class="dialog-actions">
+        <button mat-flat-button (click)="onAssign()" [disabled]="selectedZoneId === undefined">Assign</button>
+    </div>
+</div>

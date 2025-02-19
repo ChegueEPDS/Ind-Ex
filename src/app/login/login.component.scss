@@ -1,0 +1,182 @@
+.tn {
+    max-width: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.image-wrapper {
+    position: relative;
+    width: max-content;
+    margin-bottom: 50px;
+  }
+    
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(60deg, #212121,#d28314, #212121);
+    background-size: 200%;
+}
+
+.full-width {
+  width: 300px;
+}
+
+.login {
+    display: flex;
+    width: 400px;
+    align-items: center;
+    padding: 30px 0px;
+}
+
+.mat-mdc-card-header {
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mat-mdc-card-content {
+  padding: 12px 0 0 0;
+}
+
+.mat-mdc-card-actions {
+  width: 300px;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.microsoft-login-btn {
+  background-color: #232323;
+  color: white;
+  width: 100%;
+  height: 56px;
+  letter-spacing: 0.1rem;
+  gap: 8px;
+  padding: 16px;
+  font-size: medium;
+  font-weight: 400;
+  .mat-icon {
+    font-size: 1.5rem !important;
+    height: 1.5rem !important;
+    width: 1.5rem !important;
+  }
+}
+
+.microsoft-login-btn:hover {
+  background-color: #424242;
+}
+
+.forgot-password {
+  color: #964900;
+  margin-bottom: -15px;
+}
+
+.shake-top {
+	-webkit-animation: shake-top 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+	        animation: shake-top 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+@media (max-width: 768px) {
+  .login {
+    width: 90vw;
+  }
+}
+
+@-webkit-keyframes shake-top {
+  0%,
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    -webkit-transform-origin: 50% 0;
+            transform-origin: 50% 0;
+  }
+  10% {
+    -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+  }
+  30%,
+  50%,
+  70% {
+    -webkit-transform: rotate(4deg);
+            transform: rotate(4deg);
+  }
+  80% {
+    -webkit-transform: rotate(-2deg);
+            transform: rotate(-2deg);
+  }
+  90% {
+    -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+  }
+}
+@keyframes shake-top {
+  0%,
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    -webkit-transform-origin: 50% 0;
+            transform-origin: 50% 0;
+  }
+  10% {
+    -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+  }
+  30%,
+  50%,
+  70% {
+    -webkit-transform: rotate(4deg);
+            transform: rotate(4deg);
+  }
+  80% {
+    -webkit-transform: rotate(-2deg);
+            transform: rotate(-2deg);
+  }
+  90% {
+    -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+  }
+}
+
+.bg-pan-right {
+	-webkit-animation: bg-pan-right 8s infinite alternate both;
+	        animation: bg-pan-right 8s infinite alternate both;
+}
+@-webkit-keyframes bg-pan-right {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes bg-pan-right {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}

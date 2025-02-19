@@ -1,0 +1,50 @@
+<div class="statistics-container">
+    <!-- Kategória kérdésszám megjelenítés -->
+    <mat-card>
+      <mat-card-title>Questions by category</mat-card-title>
+      <mat-card-content>
+        <ngx-charts-bar-horizontal
+          [scheme]="'natural'"
+          [results]="chartData"
+          [gradient]="false"
+          [xAxis]="true"
+          [yAxis]="false"
+          [legend]="true">
+        </ngx-charts-bar-horizontal>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Globális átlagos értékelés -->
+    <mat-card>
+      <mat-card-title>Avgerage rating</mat-card-title>
+      <mat-card-content class="global-avg">
+        <div>User rating: <strong>{{ globalAverageRating }}</strong></div>
+        <div class="rating-stars">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+            <mat-icon
+              class="star"
+              [ngClass]="{
+                'full-star': i < globalAverageRating,
+                'half-star': i === Math.floor(globalAverageRating) && globalAverageRating % 1 !== 0
+              }"
+            >star</mat-icon>
+          </ng-container>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Kategóriánkénti átlagos értékelés -->
+    <mat-card>
+      <mat-card-title>Avg. rating by category</mat-card-title>
+      <mat-card-content>
+        <ngx-charts-bar-vertical         
+          [scheme]="'natural'"
+          [results]="ratingChartData"
+          [gradient]="false"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="true">
+        </ngx-charts-bar-vertical>
+      </mat-card-content>
+    </mat-card>
+  </div>

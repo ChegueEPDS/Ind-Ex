@@ -1,0 +1,111 @@
+<mat-toolbar color="primary" class="toolbar">
+  <div class="logo">
+    <img src="/public/ExAI logo small.png" alt="" style="max-width: 42px;">
+    <div>ExAI by EPDS</div> <!-- Ide logintől függően jöhet más -->
+  </div>
+
+  <!-- Mobil nézet: Menü ikon alatti menü -->
+  <div class="menu" *ngIf="isMobileView">
+    <button mat-button *ngIf="!isLoggedIn" (click)="EPDS()">
+      <mat-icon>language</mat-icon>EPDS
+    </button>
+    <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Mobil menü">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #mobileMenu="matMenu">
+      <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/home']">
+        <mat-icon>home</mat-icon>
+        Kezdőlap
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/assistant']">
+        <mat-icon>chat</mat-icon>
+        AI Asszisztens
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/sites']">
+        <mat-icon>work</mat-icon>
+        ExRegister
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/xls']">
+        <mat-icon>compare</mat-icon>
+        XLSX Tool
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn"  [routerLink]="['/img']">
+        <mat-icon>photo_camera</mat-icon>
+        Object recognizer
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/cert']">
+        <mat-icon>document_scanner</mat-icon>
+        ATEXdb
+      </button>
+      <button mat-menu-item *ngIf="isAdmin" [matMenuTriggerFor]="adminSubMenu">
+        <mat-icon>settings</mat-icon>
+        Admin
+      </button>
+      <mat-menu #adminSubMenu="matMenu">
+        <button mat-menu-item [routerLink]="['/stat']">
+          <mat-icon>bar_chart</mat-icon>
+          Statisztikák
+        </button>
+        <button mat-menu-item [routerLink]="['/feedback']">
+          <mat-icon>feedback</mat-icon>
+          Visszajelzések
+        </button>
+        <button mat-menu-item [routerLink]="['/admin']">
+          <mat-icon>settings</mat-icon>
+          Beállítások
+        </button>
+      </mat-menu>
+      <mat-divider *ngIf="isLoggedIn"></mat-divider>
+      <button mat-menu-item *ngIf="isLoggedIn">
+        <mat-icon>manage_accounts</mat-icon>Profilom
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
+        <mat-icon>logout</mat-icon>Kilépés
+      </button>
+    </mat-menu>
+  </div>
+
+  <!-- Asztali nézet: Normál menü -->
+  <div class="menu" *ngIf="!isMobileView">
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/home']" routerLinkActive="active-link">HOME</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/assistant']" routerLinkActive="active-link">AI ASSISTANT</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/sites']" routerLinkActive="active-link">Ex REGISTER</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/cert']" routerLinkActive="active-link">ATEX DB</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/xls']" routerLinkActive="active-link">XLSX TOOL</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/img']" routerLinkActive="active-link">OBJECT RECOGNIZER </button>
+    <button mat-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu" routerLinkActive="active-link">ADMIN</button>
+    <mat-menu #adminMenu="matMenu">
+      <button mat-menu-item [routerLink]="['/stat']">
+        <mat-icon>bar_chart</mat-icon>
+        Statistics
+      </button>
+      <button mat-menu-item [routerLink]="['/feedback']">
+        <mat-icon>feedback</mat-icon>
+        Feedbacks
+      </button>
+      <button mat-menu-item [routerLink]="['/admin']">
+        <mat-icon>settings</mat-icon>
+        Admin
+      </button>
+    </mat-menu>
+    <mat-divider *ngIf="isLoggedIn" [vertical]="true"></mat-divider>
+    <button *ngIf="!isLoggedIn" mat-button (click)="EPDS()">
+      <mat-icon>language</mat-icon>EPDS
+    </button>
+    <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User settings">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item [routerLink]="['/users']">
+        <mat-icon>manage_accounts</mat-icon>
+        User settings</button>
+      <button mat-menu-item>
+        <mat-icon>subscriptions</mat-icon>
+        Subscription</button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      Logout</button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

@@ -1,0 +1,40 @@
+<div class="dataplate-container">
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">pageview</mat-icon>
+        Dataplate reader
+      </ng-template>
+      <ng-container *ngIf="selectedTabIndex === 0">
+        <app-plate-reader></app-plate-reader>
+      </ng-container>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">table_chart</mat-icon>
+        Ex Register
+      </ng-template>
+      <ng-container *ngIf="selectedTabIndex === 1">
+        <app-database></app-database>
+      </ng-container>
+    </mat-tab>
+    <!--mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">work</mat-icon>
+        Projects
+      </ng-template>
+      <ng-container *ngIf="selectedTabIndex === 2">
+        <app-project></app-project>
+      </ng-container>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">visibility</mat-icon>
+        Inspection
+      </ng-template>
+      <ng-container *ngIf="selectedTabIndex === 2">
+        <app-inspection></app-inspection>
+      </ng-container>
+    </mat-tab-->
+  </mat-tab-group>
+</div>

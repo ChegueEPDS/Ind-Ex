@@ -1,0 +1,374 @@
+<div class="platereader">
+  <div class="content-area">
+    
+    <div class="left-panel">
+      <div class="image-container" *ngIf="selectedImageUrl; else noImage">
+        <img [src]="selectedImageUrl" alt="Uploaded image">
+      </div>
+      <ng-template #noImage>
+        <div class="placeholder">No image</div>
+      </ng-template>
+    </div>
+  
+    <mat-divider vertical></mat-divider>
+  
+    <div class="right-panel">
+      <ng-container *ngIf="loading">
+        <div class="loading-container">
+          <mat-spinner></mat-spinner>
+          <div>Processing in progress...</div>
+        </div>
+      </ng-container>
+      
+      <ng-container *ngIf="!loading && tableData && selectedImageUrl">
+        <table mat-table [dataSource]="tableData" class="mat-elevation-z8" style="width:100%;">
+          
+
+          <!-- Eszköz ID -->
+          <ng-container matColumnDef="EqID">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>ID #</th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="!row.editMode; else editModel">
+                {{ row['EqID'] || '-' }}
+              </ng-container>
+              <ng-template #editModel>
+                <input matInput [(ngModel)]="row['EqID']">
+              </ng-template>
+            </td>
+          </ng-container>
+          <!-- Manufacturer -->
+          <ng-container matColumnDef="Manufacturer">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Manufacturer</th>
+            <td mat-cell *matCellDef="let row">
+              <div
+                matTooltip="{{ row['Manufacturer'] }}"
+                class="truncate"
+              >
+              <ng-container *ngIf="!row.editMode; else editManufacturer">
+                {{ row.Manufacturer || '-' }}
+              </ng-container>
+              </div>
+              <ng-template #editManufacturer>
+                <input matInput [(ngModel)]="row['Manufacturer']" matTooltip="{{ row['Manufacturer'] }}">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Model/Type -->
+          <ng-container matColumnDef="Model/Type">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Model</th>
+            <td mat-cell *matCellDef="let row">
+              <div
+                matTooltip="{{ row['Model/Type'] }}"
+                class="truncate"
+              >
+              <ng-container *ngIf="!row.editMode; else editModel">
+                {{ row['Model/Type'] || '-' }}
+              </ng-container>
+              </div>
+              <ng-template #editModel>
+                <input matInput [(ngModel)]="row['Model/Type']" matTooltip="{{ row['Model/Type'] }}">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Serial Number -->
+          <ng-container matColumnDef="Serial Number">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>SN</th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="!row.editMode; else editSerial">
+                {{ row['Serial Number'] || '-' }}
+              </ng-container>
+              <ng-template #editSerial>
+                <input matInput [(ngModel)]="row['Serial Number']">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Equipment Type -->
+          <ng-container matColumnDef="Equipment Type">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Type</th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="!row.editMode; else editEquipType">
+                {{ row['Equipment Type'] || '-' }}
+              </ng-container>
+              <ng-template #editEquipType>
+                <input matInput [(ngModel)]="row['Equipment Type']">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Marking -->
+          <ng-container matColumnDef="Marking">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Ex Marking</th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="!row.editMode; else editMarking">
+                {{ row.Marking || '-' }}
+              </ng-container>
+              <ng-template #editMarking>
+                <input matInput [(ngModel)]="row.Marking">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Equipment Group -->
+          <ng-container matColumnDef="Equipment Group">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Group</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editGroup">
+                {{ row['Equipment Group'] || '-' }}
+              </ng-container>
+              <ng-template #editGroup>
+                <input matInput
+                      [(ngModel)]="row['Equipment Group']"
+                      (ngModelChange)="validateField(row, 'Equipment Group')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidEquipmentGroup }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Equipment Category -->
+          <ng-container matColumnDef="Equipment Category">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Category</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editCategory">
+                {{ row['Equipment Category'] || '-' }}
+              </ng-container>
+              <ng-template #editCategory>
+                <input matInput
+                      [(ngModel)]="row['Equipment Category']"
+                      (ngModelChange)="validateField(row, 'Equipment Category')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidEquipmentCategory }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Environment -->
+          <ng-container matColumnDef="Environment">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Environment</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editEnvironment">
+                {{ row.Environment || '-' }}
+              </ng-container>
+              <ng-template #editEnvironment>
+                <input matInput
+                      [(ngModel)]="row.Environment"
+                      (ngModelChange)="validateField(row, 'Environment')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidEnvironment }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Type of Protection -->
+          <ng-container matColumnDef="Type of Protection">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Protection</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editProtection">
+                {{ row['Type of Protection'] || '-' }}
+              </ng-container>
+              <ng-template #editProtection>
+                <input matInput [(ngModel)]="row['Type of Protection']">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Gas / Dust Group -->
+          <ng-container matColumnDef="Gas / Dust Group">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Subgroup</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editGasDust">
+                {{ row['Gas / Dust Group'] || '-' }}
+              </ng-container>
+              <ng-template #editGasDust>
+                <input matInput 
+                      [(ngModel)]="row['Gas / Dust Group']"
+                      (ngModelChange)="validateField(row, 'Gas / Dust Group')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidGasDustGroup }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Temperature Class -->
+          <ng-container matColumnDef="Temperature Class">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Temp. Class</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editTempClass">
+                {{ row['Temperature Class'] || '-' }}
+              </ng-container>
+              <ng-template #editTempClass>
+                <input matInput
+                      [(ngModel)]="row['Temperature Class']"
+                      (ngModelChange)="validateField(row, 'Temperature Class')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidTemperatureClass }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Equipment Protection Level -->
+          <ng-container matColumnDef="Equipment Protection Level">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>EPL</th>
+            <td mat-cell *matCellDef="let row" class="center-cell">
+              <ng-container *ngIf="!row.editMode; else editEPL">
+                {{ row['Equipment Protection Level'] || '-' }}
+              </ng-container>
+              <ng-template #editEPL>
+                <input matInput
+                      [(ngModel)]="row['Equipment Protection Level']"
+                      (ngModelChange)="validateField(row, 'Equipment Protection Level')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidEquipmentProtectionLevel }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- IP rating -->
+          <ng-container matColumnDef="IP rating">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>IP</th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="!row.editMode; else editIP">
+                {{ row['IP rating'] || '-' }}
+              </ng-container>
+              <ng-template #editIP>
+                <input matInput
+                      [(ngModel)]="row['IP rating']"
+                      (ngModelChange)="validateField(row, 'IP rating')" 
+                      (keydown.enter)="saveTemporaryChanges(row)" 
+                      [ngClass]="{ 'invalid-input': row.isInvalidIPrating }">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Certificate No -->
+        <ng-container matColumnDef="Certificate No">
+          <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Cert. No</th>
+          <td mat-cell *matCellDef="let row">
+            <div
+              matTooltip="{{ row['Certificate No'] }}"
+              class="truncate"
+            >
+              <ng-container *ngIf="!row.editMode; else editCertNo">
+                {{ row['Certificate No'] || '-' }}
+              </ng-container>
+            </div>
+            <ng-template #editCertNo>
+              <input matInput [(ngModel)]="row['Certificate No']" matTooltip="{{ row['Certificate No'] }}">
+            </ng-template>
+          </td>
+        </ng-container>
+
+          <!-- Max Ambient Temp -->
+          <ng-container matColumnDef="Max Ambient Temp">
+            <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Max. Ta</th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="!row.editMode; else editMaxAmb">
+                {{ row['Max Ambient Temp'] || '-' }}
+              </ng-container>
+              <ng-template #editMaxAmb>
+                <input matInput [(ngModel)]="row['Max Ambient Temp']">
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Other Info -->
+        <ng-container matColumnDef="Other Info">
+          <th mat-header-cell class="center-cell" *matHeaderCellDef>Other Info</th>
+          <td mat-cell *matCellDef="let row">
+            <div
+              matTooltip="{{ row['Other Info'] }}"
+              class="truncate"
+            >
+              <ng-container *ngIf="!row.editMode; else editOther">
+                {{ row['Other Info'] || '-' }}
+              </ng-container>
+            </div>
+            <ng-template #editOther>
+              <input matInput [(ngModel)]="row['Other Info']" matTooltip="{{ row['Other Info'] }}">
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <!-- Compliance -->
+        <ng-container matColumnDef="Compliance">
+          <th mat-header-cell class="center-cell" *matHeaderCellDef mat-sort-header>Compliance</th>
+          <td mat-cell class="center-cell" *matCellDef="let row">
+            <!-- Normál mód -->
+            <ng-container *ngIf="!row.editMode; else editCompliance">
+              <span [ngClass]="{
+                  'compliance-na': row['Compliance'] === 'NA',
+                  'compliance-failed': row['Compliance'] === 'Failed',
+                  'compliance-passed': row['Compliance'] === 'Passed'
+                }">
+                {{ row['Compliance'] || 'NA' }}
+              </span>
+            </ng-container>
+        
+            <!-- Szerkesztési mód -->
+            <ng-template #editCompliance>
+              <select class="compliance-select" [(ngModel)]="row['Compliance']">
+                <option *ngFor="let option of complianceOptions" [value]="option">
+                  {{ option }}
+                </option>
+              </select>
+            </ng-template>
+          </td>
+        </ng-container>
+
+
+          <!-- Actions Column (Edit/Save, Cancel, Delete) -->
+          <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row">
+              <div class="actions-column">
+                <ng-container *ngIf="row.editMode; else normalMode">
+                  <!-- Mentés Gomb -->
+                  <button mat-icon-button (click)="saveTemporaryChanges(row)">
+                    <mat-icon>done</mat-icon>
+                  </button>
+                  <!-- Mégsem Gomb -->
+                  <button mat-icon-button (click)="cancelEdit(row)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </ng-container>
+                <ng-template #normalMode>
+                  <!-- Szerkesztés Gomb -->
+                  <button mat-icon-button (click)="toggleEditMode(row)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <!-- Törlés Gomb -->
+                  <button mat-icon-button class="delete_button" (click)="confirmAndDeleteRow(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </ng-template>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selectRow(row)" 
+        (dblclick)="toggleEditMode(row)"
+        [ngClass]="{'selected': selectedRow === row}">
+    </tr>
+        </table>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <button mat-flat-button color="primary" (click)="onFileSelect()" [disabled]="loading">
+      <mat-icon>photo_camera</mat-icon>
+      Add photo
+    </button>
+    <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
+
+    <button mat-flat-button style="background-color: rgb(52, 51, 68);" (click)="saveToDatabase()" [disabled]="loading">
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="login-wrapper">
+  <form (ngSubmit)="login()" novalidate>
+    <mat-card class="login" [ngClass]="{ 'shake-top': isShaking() }">
+      <mat-card-header>
+        <div class="image-wrapper">
+          <img src="/public/logo.png" alt="EPDS Logo" style="scale: 0.8;">
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-button (click)="loginWithMicrosoft()" type="button" class="microsoft-login-btn">
+          <mat-icon class="custom-mat-icon">
+            <img src="public/microsoft-icon.svg" alt="Microsoft logo">
+          </mat-icon>
+          Login with ExWorks ID
+        </button>
+        <h4 style="text-align: center;">OR External User</h4>
+        <div class="col">
+          <mat-form-field appearance="outline" class="full-width inputfield">
+            <input matInput [(ngModel)]="email" name="email" placeholder="E-Mail cím" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width inputfield">
+            <input matInput [(ngModel)]="password" name="password" placeholder="Jelszó" [type]="hide() ? 'password' : 'text'" required>
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="clickEvent($event)"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide()">
+              <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button type="submit">Login</button>
+        <a href="/forgot-password" class="forgot-password">Elfelejtett jelszó?</a>
+      </mat-card-actions>
+    </mat-card>
+  </form>

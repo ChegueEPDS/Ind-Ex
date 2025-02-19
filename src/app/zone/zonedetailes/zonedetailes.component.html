@@ -1,0 +1,104 @@
+<mat-tab-group class="main" (selectedTabChange)="onTabChange($event)">
+  <!-- Details Tab -->
+  <mat-tab label="Details">
+      <div *ngIf="showDetailsTab" class="details-container">
+        <mat-card class="details-card">
+          <mat-card-content>
+            <div class="header">
+              <div class="title">
+                <h2>{{ zone.Name }}</h2>
+                <p class="description" *ngIf="zone.Description">{{ zone.Description }}</p>
+              </div>
+              <div class="action-buttons">
+                <button mat-icon-button>
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="delete_button">
+                    <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              
+            </div>
+            <div class="project-grid">
+              <div class="left-column">
+                  <p *ngIf="zone.Environment"><strong>Environment:</strong> {{ zone.Environment }}</p>
+                  <p *ngIf="zone.SubGroup"><strong>Sub-Group:</strong> {{ zone.SubGroup }}</p>
+              </div>
+              <div class="right-column">
+                  <p *ngIf="zone.Zone !== null"><strong>Zone:</strong> {{ zone.Zone }}</p>
+                  <p *ngIf="zone.TempClass"><strong>Temperature Class:</strong> {{ zone.TempClass }}</p>
+                  <p *ngIf="zone.TempClass == null"><strong>Max. Temp.:</strong> {{ zone.MaxTemp }}°C</p>
+              </div>
+          </div>
+          </mat-card-content>
+          <mat-card-footer>
+            <div><strong>Equipment Count:</strong> {{ zone.equipmentCount }}</div>
+            <p *ngIf="zone.updatedAt"><strong>Last Updated:</strong> {{ zone.updatedAt | date: 'MM.dd.yyyy' }}</p>
+          </mat-card-footer>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-header>
+            <mat-card-title>Compliance</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ngx-charts-pie-grid
+              [results]="complianceChartData"
+              [customColors]="complianceCustomColors"
+              [animations]="true"
+              [view]="[chartWidth, 200]">
+            </ngx-charts-pie-grid>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="add-card"
+                  matRipple 
+                  matRippleColor="rgba(0, 0, 0, 0.1)"
+                  (click)="openPlateReader()"
+                  style="cursor: pointer;">
+          <mat-card-content> <!-- Középre igazított tartalom -->
+            <mat-icon class="bigicon">photo_camera</mat-icon>
+            <p class="title">Add Equipment</p>
+            <p>AI Powered Dataplate Reader</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-header>
+            <mat-card-title>Applicable protection methods</mat-card-title>
+          </mat-card-header>
+          <mat-card-content style="margin: 32px; font-size: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 8px; color: grey">
+            <mat-icon class="bigicon">table_chart</mat-icon>
+            <p style="margin: 0; text-align: center; font-size: 1.5rem;">Electrical / Mechanical</p>
+            <p style="margin-top: 0; color: gray; font-size: 0.8rem;">Coming Soon...</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card democontent">
+          <mat-card-content>
+            <mat-icon class="bigicon">upload</mat-icon>
+            <p style="margin: 0; text-align: center;">Import Equipment</p>
+            <p style="margin-top: 0; color: gray; font-size: 0.8rem;">Coming Soon...</p>
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+      
+  </mat-tab>
+
+  <!-- ExRegister Tab -->
+  <mat-tab label="ExRegister">
+      <div *ngIf="exRegisterVisible" class="exregister-container">
+        <mat-card class="details-header">
+          <mat-card-content>
+            <p *ngIf="zone.Environment"><strong>Environment:</strong> {{ zone.Environment }}</p>
+            <p *ngIf="zone.SubGroup"><strong>Sub-Group:</strong> {{ zone.SubGroup }}</p>
+            <p *ngIf="zone.Zone !== null"><strong>Zone:</strong> {{ zone.Zone }}</p>
+            <p *ngIf="zone.TempClass"><strong>Temperature Class:</strong> {{ zone.TempClass }}</p>
+            <p *ngIf="zone.TempClass == null"><strong>Max. Temp.:</strong> {{ zone.MaxTemp }}°C</p>
+          </mat-card-content>
+        </mat-card>
+        <app-database [zoneId]="zone?._id" (deletionCompleted)="reloadAllData()" (dataChanged)="onDataChanged()"></app-database>
+      </div>
+  </mat-tab>
+</mat-tab-group>

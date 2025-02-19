@@ -1,0 +1,120 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 80%;
+    margin: auto;
+    position: relative;
+    top: 88px;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Félátlátszó háttér */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Biztosítja, hogy minden felett legyen */
+  }
+  
+  .thing {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .thingimg, .result {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    max-width: 50%;
+    max-height: 70vh;
+    overflow: hidden;
+  }
+  
+  .thingimg img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .result {
+    padding: 1rem;
+    overflow-y: auto;
+    min-height: 300px;
+  }
+  
+  .select-thing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 16px;
+  }
+  
+  .placeholder {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    img {
+      max-width: 400px;
+      border-radius: 8px;
+    }
+  }
+  
+  .fade-in {
+    animation: fade-in 1.2s ease-in-out both;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .text-focus-in {
+    animation: text-focus-in 500ms ease-in-out both;
+  }
+
+  ::ng-deep .text-focus-in p {
+    margin-left: 16px;
+    padding-left: 16px; /* Az egész szöveg beljebb kezdődik */
+    text-indent: -16px; /* Az első sort visszahúzzuk */
+    
+  }
+  
+  @keyframes text-focus-in {
+    0% {
+      filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      filter: blur(0px);
+      opacity: 1;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      height: calc(100vh - 56px);
+    }
+    .thing {
+      flex-direction: column;
+    }
+    .thingimg, .result {
+      max-width: 100%;
+    }
+    .thingimg {
+      padding-bottom: 2rem;
+    }
+  }

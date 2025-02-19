@@ -1,0 +1,175 @@
+.container {
+  max-width: 80vw;
+  margin: 18px auto;
+  top: 64px;
+  position: relative;
+
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Alapból 4 oszlop */
+  gap: 16px;
+  margin: 20px 0;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 1024px) { /* Tablet nézet */
+      grid-template-columns: repeat(2, 1fr); /* 2 oszlop */
+      grid-template-rows: repeat(2, auto); /* 2 sor */
+  }
+
+  @media (max-width: 768px) { /* Mobil nézet */
+      grid-template-columns: 1fr; /* 1 oszlop */
+  }
+}
+
+.grid-item {
+  background: #fff8f5;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 120px; /* Azonos magasságú négyzetek */
+  cursor: pointer;
+      transition: box-shadow 0.2s ease-in-out;
+
+      &:hover {
+          box-shadow: 0px 4px 10px rgba(125, 76, 8, 0.633);
+      }
+  .bigicon {
+    color: #964900;
+    font-size: 62px; /* Állítsd be az ikon méretét */
+    height: 62px; /* Ha szükséges, állítsd be a magasságot */
+    width: 62px; /* Ha szükséges, állítsd be a szélességet */
+    margin-bottom: 4px;
+  }
+  h3 {
+    margin: 0px;
+  }
+}
+
+.xlsbutton {
+  width: 224px;
+  height: 224px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  .mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 156px;
+    height: 156px;
+  }
+
+  .mat-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Az ikon szépen méreteződik */
+  }
+  &:hover {
+    transform: rotate(20deg)
+    scale(1.2);
+  }
+}
+
+.disabled {
+pointer-events: none;  /* Letiltja a kattintást */
+opacity: 0.5;  /* Halványítja az elemet, hogy vizuálisan is inaktív legyen */
+cursor: not-allowed;
+}
+
+.grid-item mat-form-field {
+  width: 100%;
+}
+
+.download-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.summary-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100%;
+background: #fff8f5;
+border-radius: 8px;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-column {
+margin: 0 16px;
+}
+
+.download-column {
+  margin: 0 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.spinner-container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 200px;
+width: 100%;
+animation: fadeInDown 0.5s ease-in-out;
+}
+
+.result-container {
+display: grid;
+grid-template-columns: 1fr 4px 1fr; /* 2 oszlop + elválasztó */
+width: 100%;
+align-items: start;
+opacity: 0;
+transform: translateY(-10px);
+transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+
+&.show {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeInDown 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+}
+}
+
+.result-container.show {
+opacity: 1;  /* Láthatóvá válik */
+transform: translateY(0); /* Visszacsúszik az eredeti helyére */
+}
+
+.divider {
+width: 2px;
+background-color: #84746a;
+height: 95%;
+border-radius: 2px;
+align-self: center;
+
+@media (max-width: 768px) {
+  display: none;
+}
+}
+
+@keyframes fadeInDown {
+from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
+}

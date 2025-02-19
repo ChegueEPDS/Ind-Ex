@@ -1,0 +1,39 @@
+<div class="upload-container">
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <!-- CertNo Input -->
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Certificate Number</mat-label>
+            <input matInput formControlName="certNo" placeholder="Enter Certificate No" />
+        </mat-form-field>
+
+        <!-- xCondition Checkbox -->
+        <mat-checkbox formControlName="xcondition" style="margin-bottom: 16px;">X condition of Use</mat-checkbox>
+
+        <!-- SpecCondition Long Text Input -->
+        <!-- SpecCondition Long Text Input -->
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Specific Condition</mat-label>
+            <textarea matInput 
+                    formControlName="specCondition"
+                    placeholder="Enter Specific Condition"
+                    cdkTextareaAutosize
+                    [cdkAutosizeMinRows]="5"
+                    [cdkAutosizeMaxRows]="15"
+                    style="resize: vertical;">
+            </textarea>
+        </mat-form-field>
+
+        <!-- File Input -->
+        <input type="file" (change)="onFileSelected($event)" accept="application/pdf" />
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="uploadForm.invalid || !file">
+            Feltöltés
+        </button>
+    </form>
+
+    <!-- Success/Error Message -->
+    <div *ngIf="responseMessage" class="response-message">
+        {{ responseMessage }}
+    </div>
+</div>

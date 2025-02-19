@@ -1,0 +1,7 @@
+{
+    "/api": {
+      "target": "https://80fb-2001-4c4c-1927-e200-cc0e-d6fa-8814-7cf9.ngrok-free.app",
+      "secure": false,
+      "logLevel": "debug"
+    }
+  }

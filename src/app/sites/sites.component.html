@@ -1,0 +1,58 @@
+<div class="project-container" *ngIf="isLoading">
+    <mat-progress-spinner></mat-progress-spinner>
+</div>
+
+<div class="project-container" *ngIf="!isLoading && sites.length > 0">
+    <mat-card *ngFor="let site of sites" class="project-card" matRipple (click)="openSiteDetails(site)">
+        <mat-card-header>
+            <mat-card-title>
+                {{ site.Name }}
+            </mat-card-title>
+            <mat-card-subtitle>{{ site.Client || 'No Client name' }}</mat-card-subtitle>
+            <div class="action-buttons">
+                <button mat-icon-button class="delete_button" (click)="deleteProject(site._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="project-grid">
+                <div class="left-column">
+                    <p><strong>No. of zones:</strong> {{ site.zoneCount }}</p>
+
+                </div>
+                <div class="right-column">
+                <p><strong>No. of Equipment:</strong> {{ site.deviceCount }}</p>
+              </div>
+            </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <p *ngIf="site.CreatedBy">
+                <strong>Created by:</strong> 
+                {{ site.CreatedBy.nickname ? site.CreatedBy.nickname : (site.CreatedBy.firstName && site.CreatedBy.lastName ? site.CreatedBy.firstName + ' ' + site.CreatedBy.lastName : 'Unknown') }}
+            </p>
+            <p><strong>Last updated:</strong> {{ site.updatedAt | date: 'MM.dd.yyyy' }}</p>
+        </mat-card-footer>
+    </mat-card>
+    <mat-card class="project-card add-project"
+            (click)="openNewSiteDialog()"
+            matRipple 
+            matRippleColor="rgba(0, 0, 0, 0.1)">
+        <mat-card-content class="addcard">
+            <mat-icon>add</mat-icon>
+            New project
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="project-container" *ngIf="!isLoading && sites.length === 0">
+    <mat-card class="project-card add-project"
+            (click)="openNewSiteDialog()"
+            matRipple 
+            matRippleColor="rgba(0, 0, 0, 0.1)">
+        <mat-card-content class="addcard">
+            <mat-icon>add</mat-icon>
+            Add your first project
+        </mat-card-content>
+    </mat-card>
+</div>

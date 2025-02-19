@@ -1,0 +1,131 @@
+.main {
+  max-width: 100%;
+  top: 64px;
+  position: relative;
+  overflow: hidden; /* Megakadályozza a vízszintes görgetést a teljes képernyőn */
+  height: calc(100vh - 64px);
+  }
+
+.tab-icon {
+  margin-right: 4px;
+  scale: 0.75;
+}
+
+.project-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.left-column, .right-column {
+    width: 48%; /* Oszlopok szélessége */
+  }
+
+.details-container {
+    display: grid;
+    grid-template-columns: 3 1fr;
+    gap: 16px;
+    margin: 16px auto;
+    width: 80%;
+  }
+  
+  .details-card {
+    grid-column: span 3; /* Kétszer olyan széles, mint a többi */
+  }
+
+  .stat-card {
+    grid-column: span 2;
+  }
+
+  .democontent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: span 1;
+      mat-card-content {
+        font-size: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: grey;
+      }
+  }
+
+  .add-card {
+    grid-column: span 1;
+    height: 100%;
+    justify-content: center;
+      mat-card-content {
+        font-size: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+      }
+      .title {
+        font-size: 22px;
+        margin: 0;
+      }
+      p {
+        margin: 0; font-size: 0.8rem;
+      }
+      .bigicon {
+        color: #964800b4;
+      }
+  }
+
+  mat-card-footer {
+    display: flex;
+    margin: 0 16px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: gray;
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .details-header {
+    margin: 16px;
+    margin-bottom: 0;
+    padding: 16px;
+    mat-card-content {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+      gap: 16px;
+      font-size: 1.1rem;
+    }
+    p {
+      margin: 0;
+    }
+  }
+
+  .bigicon {
+    color: grey;
+    font-size: 72px; /* Állítsd be az ikon méretét */
+    height: 72px; /* Ha szükséges, állítsd be a magasságot */
+    width: 72px; /* Ha szükséges, állítsd be a szélességet */
+  }
+
+  h2 {
+    margin: 0px;
+  }
+
+  .description {
+    margin: 8px 0;
+    font-size: 1rem;
+  }
+
+  .header {  
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .full-screen-modal .mat-dialog-container {
+    max-width: none;
+  }

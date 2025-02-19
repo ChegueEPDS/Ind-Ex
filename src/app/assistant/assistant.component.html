@@ -1,0 +1,206 @@
+<mat-drawer-container class="container">
+  <mat-drawer #drawer class="sidebar" [mode]="mode" [(opened)]="isDrawerOpen">    <div class="sidebar-header">
+      Conversations
+    </div>
+    <!-- Ha nincs bejelentkezve -->
+    <mat-card *ngIf="!isLoggedIn" class="conversation-card">
+      <mat-card-header>Lorem Ipsum</mat-card-header>
+      <mat-card-content>Please sign in</mat-card-content>
+    </mat-card>
+    <!-- Ha be van jelemntkezve -->
+    <div *ngIf="isLoggedIn" class="conversations">
+      <mat-card class="conversation-card" *ngFor="let conversation of conversations">
+        <mat-card-content (click)="loadConversation(conversation)">
+          <div 
+            class="conversation-content" 
+            [ngClass]="{'hovered': conversation.hovered}" 
+            (mouseenter)="conversation.hovered = true" 
+            (mouseleave)="conversation.hovered = false">
+            <ng-container *ngIf="!conversation.hovered">
+              {{ getTruncatedContent(conversation.messages[0]?.content) }}
+              <span *ngIf="conversation.messages[0]?.content?.length > 20">...</span>
+            </ng-container>
+            <ng-container *ngIf="conversation.hovered">
+              {{ conversation.messages[0]?.content }}
+            </ng-container>
+          </div>
+          <button mat-icon-button 
+                  [matMenuTriggerFor]="menu" 
+                  class="card-menu"
+                  (click)="$event.stopPropagation()">
+            <mat-icon class="menu-icon">more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item class="menu-item">
+              <mat-icon class="menu-icon">edit</mat-icon>
+              <span>Rename</span>
+            </button>
+            <button *ngIf="conversation.threadId" mat-menu-item
+                    class="delete-menu"
+                    (click)="deleteConversation(conversation.threadId, $event)">
+              <mat-icon class="delete-icon">delete</mat-icon>
+              <span>Törlés</span>
+            </button>
+          </mat-menu>
+        </mat-card-content>
+        <mat-card-footer hidden>
+          {{ conversation.threadName }}
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </mat-drawer>
+  
+  <div class="sidenav-content">
+    <div class="action-buttons">
+      <button mat-icon-button
+              (click)="toggleDrawer()"
+              [matTooltip]="isDrawerOpen ? 'Hide chat history' : 'Chat history'"
+              [matTooltipShowDelay]="500"
+              [matTooltipHideDelay]="300"
+              aria-label="Button to open/close conversation history">
+        <mat-icon [ngClass]="{ 'rotate-icon': !isDrawerOpen }">chevron_left</mat-icon>
+      </button>
+      <!-- Új thread nyitása = új beszélgets -->
+      <button mat-icon-button 
+              class="new-chat-btn"
+              (click)="startNewConversation()"
+              matTooltip="New conversation"
+              [matTooltipShowDelay]="500"
+              [matTooltipHideDelay]="300"
+              aria-label="Button to start new conversation thread">
+        <mat-icon>chat</mat-icon>
+      </button>
+    </div>
+
+    <div class="chat-window">
+      <div class="messages" #messagesContainer>
+        <div style="display: flex; flex-direction: column;" *ngFor="let msg of messages; let i = index">
+          
+          <!-- User üzenet -->
+          <div *ngIf="msg.role === 'user'" class="questionbox">
+            <div class="roleq">{{ userNickname }}</div>
+    
+            <!-- Ha az üzenet tartalmaz képet, akkor a képet jelenítjük meg -->
+            <ng-container *ngIf="msg.image; else textContent">
+              <div class="question"> <!-- Ugyanaz az osztály, mint a szövegnél -->
+                <img [src]="msg.image" alt="Uploaded image" style="max-width: 200px; max-height: 200px; border-radius: 5px;">
+              </div>
+            </ng-container>
+            <ng-template #textContent>
+              <div class="question">{{ msg.content }}</div>
+            </ng-template>
+          </div>
+          
+          <div *ngIf="msg.role === 'assistant'" class="answerbox">
+            <div class="rolea">Assistant</div>
+            <div class="answer" *ngIf="msg.loading">
+              <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="answer loaded" [innerHTML]="msg.content" *ngIf="!msg.loading"></div>
+           <!-- Csillag értékelés és challenge - csak akkor jelenik meg, ha a válasz teljesen betöltődött -->
+           <div class="rating" *ngIf="!msg.loading">
+            <mat-icon 
+              *ngFor="let star of [1, 2, 3, 4, 5]; let idx = index"
+              [ngClass]="{
+                'selected-star': (msg.rating ?? 0) >= star,
+                'hovered-star': (msg.hoveredRating ?? 0) >= star
+              }"
+              (click)="rateAnswer(i, star)"
+              (mouseenter)="onStarHoverStart(i, star)"
+              (mouseleave)="onStarHoverEnd(i)">
+              star
+            </mat-icon>
+          
+            <!-- Új challenge gomb hozzáadása a csillagok mellé -->
+            <button mat-icon-button
+                    class="challenge-btn-small"
+                    (click)="openChallengeDialog(i)"
+                    matTooltip="Feedback"
+                    [matTooltipShowDelay]="500"
+                    [matTooltipHideDelay]="300">
+              <mat-icon>lightbulb</mat-icon> <!-- Az ikon a challenge gombhoz -->
+            </button>
+          </div>
+      </div>
+    </div>
+    <div *ngIf="errorMessage" class="errorbox">
+      <div class="error">{{errorMessage}}</div>
+    </div>
+  </div>
+  
+  <div class="input-container">
+    <div class="inputbtns" *ngIf="!isMobileView; else mobileMenu">
+      <!-- Photo képfeltöltés gomb -->
+      <button mat-icon-button
+              matTooltip="Image upload"
+              (click)="onFileSelectPhoto()">
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <input type="file" accept="image/*" #fileInputPhoto (change)="onFileChangePhoto($event)" hidden>
+    
+      <!-- Azure képfeltöltés gomb -->
+      <button mat-icon-button
+              matTooltip="Dataplate"
+              (click)="onFileSelect()">
+        <mat-icon>pageview</mat-icon>
+      </button>
+      <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
+    </div>
+    
+    <!-- Mobil nézethez menü -->
+    <ng-template #mobileMenu>
+      <div class="inputbtns">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" (closed)="menuClosed()">
+          <button mat-menu-item (click)="onMenuItemClick('photo')">
+            <mat-icon>photo_camera</mat-icon>
+            <span>Image upload</span>
+          </button>
+          <input type="file" accept="image/*" #fileInputPhoto (change)="onFileChangePhoto($event)" hidden>
+          <button mat-menu-item (click)="onMenuItemClick('azure')">
+            <mat-icon>pageview</mat-icon>
+            <span>Dataplate</span>
+          </button>
+          <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
+        </mat-menu>
+      </div>    
+    </ng-template>
+
+    <!-- Rest of the input form -->
+    <mat-form-field appearance="outline" class="inputfield">
+      <textarea class="questionfield"
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                #message
+                maxlength="512"
+                placeholder="Írd be az üzeneted..."
+                [(ngModel)]="userMessage"
+                (keyup.enter)="sendMessage()"
+                (focus)="onInputFocus()" 
+                [disabled]="loading">
+      </textarea>
+      <mat-hint align="start">Beta version</mat-hint>
+      <mat-hint align="end">{{message.value.length}} / 512</mat-hint>
+      <button class="sendbtn"
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="sendMessage()"
+        [disabled]="loading"
+        [attr.aria-label]="'Send message'">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+      
+    </div>
+  </div>
+</mat-drawer-container>

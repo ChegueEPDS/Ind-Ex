@@ -1,0 +1,35 @@
+<div class="container">
+
+    <div class="overlay" *ngIf="loading()">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="thing">
+      <!-- Bal oldali div (Képfeltöltés) -->
+      <div class="thingimg">
+        <div class="image-container" *ngIf="imageUrl()">
+          <img class="fade-in" [src]="imageUrl()" alt="Uploaded Image">
+        </div>
+        <div class="image-container placeholder" *ngIf="!imageUrl()">
+          <img src="/public/placeholder.webp" alt="Placeholder">
+        </div>
+      </div>
+  
+      <mat-divider vertical></mat-divider>
+  
+      <!-- Jobb oldali div (Eredmény) -->
+      <div class="result">
+        <div *ngIf="visionResponse()" class="text-focus-in">
+            <h3>Tárgyfelismerés eredménye:</h3>
+            <div [innerHTML]="getCleanedHtml(visionResponse() || '')"></div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="select-thing">
+      <button mat-flat-button (click)="fileInput.click()">
+        <mat-icon>add_a_photo</mat-icon> Kép feltöltése
+      </button>
+      <input type="file" accept="image/*" #fileInput (change)="onFileChange($event)" hidden>
+    </div>
+  </div>

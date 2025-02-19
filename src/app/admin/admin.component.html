@@ -1,0 +1,64 @@
+
+  <div class="settings">
+    <div class="row1">
+      <h2>OpenAI Settings</h2>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>API Key</mat-label>
+        <textarea matInput [disabled]="true" placeholder="Your API Key" rows="1"></textarea>
+      </mat-form-field>  
+      <mat-form-field appearance="outline" class="full-width" style="margin-top: 10px">
+        <mat-label>Assistant Name</mat-label>
+        <textarea matInput [(ngModel)]="name" [disabled]="true" placeholder="Assistant Name" rows="1"></textarea>
+      </mat-form-field>  
+
+      <h2>AI Assistant Configuration</h2>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Instructions</mat-label>
+          <textarea
+            matInput
+            [disabled]="true"
+            [(ngModel)]="instructions"
+            placeholder="You are an expert in..."
+            rows="15"
+          ></textarea>
+        </mat-form-field>
+      
+      <h2>Slider Control</h2>
+      <mat-form-field appearance="outline" style="max-width: 25%; margin-right: 14px;">
+        <mat-label>Temperature</mat-label>
+        <input matInput type="number" [(ngModel)]="temperature" [disabled]="true" min="{{min}}" max="{{max}}" step="{{step}}">
+      </mat-form-field>
+      <mat-slider
+      class="example-margin"
+      [disabled]="disabled"
+      [max]="max"
+      [min]="min"
+      [step]="step"
+      style="width: calc(75% - 30px);">
+      <input matSliderThumb [(ngModel)]="temperature" [disabled]="true">
+    </mat-slider>
+  </div>
+
+    <div class="row2">
+      <h2>Upload Files to Knowledge Base:</h2>
+      <div class="form-group">
+        <label for="files">Upload Files to Knowledge Base: </label>
+        <input type="file" id="files" [disabled]="true" (change)="onFileSelected($event)" accept=".txt,.docx,.pdf" multiple />
+        
+        <div *ngIf="selectedFiles.length > 0">
+          <p>Files to Upload:</p>
+          <ul>
+            <li *ngFor="let file of selectedFiles">{{ file.name }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>  
+      
+    <div class="action">
+      <button mat-flat-button (click)="saveSettings()" [disabled]="true">Save Settings</button>
+    </div>
+
+    <div class="upload">
+      <button mat-flat-button (click)="uploadFiles()" [disabled]="true">Upload</button>
+    </div>
+  </div>

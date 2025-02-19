@@ -1,0 +1,27 @@
+<div class="form-container">
+  <h2>New Project</h2>
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+      <!-- Project Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="Name" />
+        <mat-error *ngIf="projectForm.get('Name')?.hasError('required')">
+          Project name is required
+        </mat-error>
+      </mat-form-field>
+      
+      <!-- Description -->
+      <mat-form-field appearance="outline">
+        <mat-label>Client</mat-label>
+        <textarea matInput formControlName="Client"></textarea>
+        <mat-error *ngIf="projectForm.get('Client')?.hasError('required')">
+          Client is required
+        </mat-error>
+      </mat-form-field>
+      
+      <!-- Submit Button -->
+      <div class="submit">
+        <button mat-flat-button type="submit">Create Project</button>
+      </div>
+    </form>
+  </div>

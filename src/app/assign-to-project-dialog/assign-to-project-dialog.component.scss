@@ -1,0 +1,14 @@
+.assign {
+    padding: 16px;
+}
+
+.form {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.dialog-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}

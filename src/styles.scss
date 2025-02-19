@@ -1,0 +1,191 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$ExGPT-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$orange-palette,
+    tertiary: mat.$green-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+:root {
+  @include mat.all-component-themes($ExGPT-theme);
+  --mdc-filled-button-container-color: #fcb040;
+  --mdc-protected-button-label-text-color: #fcb040;
+  --mdc-filled-text-field-focus-active-indicator-color: #fcb040;
+  --mdc-outlined-card-container-color: #fff8f4;
+  --mdc-filled-text-field-container-color: #fff8f4;
+  --mdc-outlined-text-field-outline-color: #964900;
+  --mdc-outlined-text-field-focus-outline-color: #fcb040;
+  --mdc-list-list-item-two-line-container-height: 51px;
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+@include mat.typography-hierarchy($ExGPT-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($ExGPT-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 14px;}
+
+.mat-mdc-card {
+  padding: 10px;
+}
+
+th .mdc-checkbox__background {
+  border-color: #fcb040 !important;
+}
+
+  .mdc-list-item__secondary-text {
+    font-size: smaller !important;
+}
+
+.mat-mdc-form-field-icon-suffix, [dir=rtl] .mat-mdc-form-field-icon-prefix {
+  padding: 0 5px 0 4px !important;
+}
+
+.mat-mdc-icon-button {
+  transition: transform 0.3s ease-in-out, color 0.3s ease;
+&:hover {
+  color: #fcb040;
+  transform: scale(1.25);
+  transition: transform 0.3s ease-in-out, color 0.3s ease;
+  }
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: #fcf5ed;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --mdc-outlined-text-field-container-shape: 15px;
+  border-radius: 15px !important;
+}
+
+.inputfield .mat-mdc-text-field-wrapper {
+  border-radius: 50px !important;
+  padding-left: 15px !important;
+  padding-right: 3px !important;
+  --mdc-outlined-text-field-container-shape: 50px;
+}
+
+.cancel_button {
+  background-color: #964900 !important;
+}
+
+.delete_button:hover {
+  color: red !important;
+}
+
+.mat-mdc-menu-item:hover, .mat-mdc-menu-item:hover .mat-icon {
+  color: #fcb040;
+} 
+
+.search .mat-mdc-form-field-subscript-wrapper, .full-width .mat-mdc-form-field-subscript-wrapper, .half-width .mat-mdc-form-field-subscript-wrapper, .upload-container .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.paginator .mat-mdc-select-arrow-wrapper {
+  padding-right: 10px;
+}
+
+.search .mat-mdc-text-field-wrapper {
+  margin: 5px 0;
+}
+
+.stat-dialog {
+  width: 800px;
+}
+
+.inputfield .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.answer table, .asnwer th, .answer td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.asnwer th, .answer td {
+  padding: 8px;
+}
+
+.mat-expansion-panel-content h4 {
+  margin-bottom: 0 !important;
+  padding-left: 8px !important;
+}
+
+.mat-drawer-content {
+  background-color: white;
+}
+
+/* A header cellákra alkalmazzuk, hogy ne törjön a sor */
+.mat-mdc-header-cell {
+  white-space: nowrap;
+}
+
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 0 8px !important;
+  font-size: 0.8rem;
+  border-right: 1px solid;
+}
+.mdc-data-table__cell:last-child, 
+.mdc-data-table__header-cell:last-child {
+  border-right: none !important; /* Eltávolítja a jobb oldali bordert */
+}
+
+.tablefooter .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.mat-mdc-row {
+  height: 32px !important;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+    &:hover {
+    background-color: rgba(#a5987e60, 0.3);
+  }
+}
+
+.mat-mdc-cell, 
+.mat-mdc-header-cell {
+  padding: 4px;
+  font-size: 12px; /* Nagyobb betűméret */
+}
+
+.mat-mdc-header-row {
+  height: 32px !important;
+  color:#fcb040 !important;
+  background-color:#2e2109 !important;
+}
+
+.mat-sort-header-arrow {
+  color:#fcb040 !important;
+}
+
+.mat-mdc-row:nth-child(even) {
+  background-color: #fff8ed; /* Fehér */
+  &:hover {
+    background-color: rgba(#a5987e60, 0.3);
+  }
+}
+
+.selected {
+  background-color: #ffb11f40 !important;
+}
+.stat-card .ngx-charts-outer {
+  margin: auto;
+}

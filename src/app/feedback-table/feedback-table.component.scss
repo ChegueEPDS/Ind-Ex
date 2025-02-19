@@ -1,0 +1,41 @@
+.feedbacks {
+  display: flex; 
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+  margin: 20px auto;
+  top: 64px;
+  position: relative;
+}
+
+.answerbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .answer {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}  
+
+  .answer.collapsed {
+    max-height: 100px;
+  }
+  
+  .answer.expanded {
+    max-height: 500px; /* vagy egyéb maximális magasság */
+  }
+  
+  .rotated {
+    transform: rotate(-90deg);
+    transition: transform 0.3s ease;
+  }
+
+  mat-icon {
+    transition: transform 0.3s ease-in-out; /* Az ikon forgásának animációja */
+  }
+
+  .feedbacks .mat-row:nth-child(odd) {
+    background-color: #ffffff; /* Szín a páratlan soroknak (vagy hagyhatod alapértelmezetten) */
+  }

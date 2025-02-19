@@ -1,0 +1,102 @@
+<div class="form-container">
+  <h2>New Zone</h2>
+    <form [formGroup]="zoneForm" (ngSubmit)="onSubmit()">
+      <!-- Zone Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Zone Name</mat-label>
+        <input matInput formControlName="Name" />
+        <mat-error *ngIf="zoneForm.get('Name')?.hasError('required')">
+          Zone name is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Site Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Project</mat-label>
+        <mat-select formControlName="Site" required>
+          <mat-option *ngFor="let site of availableSites" [value]="site._id">
+            {{ site.Name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="zoneForm.get('Site')?.hasError('required')">
+          Site selection is required
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Description -->
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="Description"></textarea>
+        <mat-error *ngIf="zoneForm.get('Description')?.hasError('maxlength')">
+          Description cannot exceed 255 characters
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Environment -->
+      <mat-form-field appearance="outline">
+        <mat-label>Environment</mat-label>
+        <mat-select formControlName="Environment">
+          <mat-option value="Gas">Gas</mat-option>
+          <mat-option value="Dust">Dust</mat-option>
+          <mat-option value="Hybrid">Hybrid</mat-option>
+          <mat-option value="NonEx">NonEx</mat-option>
+        </mat-select>
+        <mat-error *ngIf="zoneForm.get('Environment')?.hasError('required')">
+          Environment is required
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Zone (only visible if Environment is Gas, Dust, or Hybrid) -->
+<mat-form-field *ngIf="environment === 'Gas' || environment === 'Dust' || environment === 'Hybrid'" appearance="outline">
+    <mat-label>Zone</mat-label>
+    <mat-select formControlName="Zone" multiple>
+      <mat-option *ngIf="environment === 'Gas' || environment === 'Hybrid'" value="0">Zone 0</mat-option>
+      <mat-option *ngIf="environment === 'Gas' || environment === 'Hybrid'" value="1">Zone 1</mat-option>
+      <mat-option *ngIf="environment === 'Gas' || environment === 'Hybrid'" value="2">Zone 2</mat-option>
+      <mat-option *ngIf="environment === 'Dust' || environment === 'Hybrid'" value="20">Zone 20</mat-option>
+      <mat-option *ngIf="environment === 'Dust' || environment === 'Hybrid'" value="21">Zone 21</mat-option>
+      <mat-option *ngIf="environment === 'Dust' || environment === 'Hybrid'" value="22">Zone 22</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+      <!-- Sub-Group (only visible if Environment is not NonEx) -->
+      <mat-form-field *ngIf="environment === 'Gas' || environment === 'Dust' || environment === 'Hybrid'" appearance="outline">
+        <mat-label>Sub-Group</mat-label>
+        <mat-select formControlName="SubGroup" multiple>
+          <mat-option *ngIf="environment === 'Gas' || environment === 'Hybrid'" value="IIA">IIA</mat-option>
+          <mat-option *ngIf="environment === 'Gas' || environment === 'Hybrid'" value="IIB">IIB</mat-option>
+          <mat-option *ngIf="environment === 'Gas' || environment === 'Hybrid'" value="IIC">IIC</mat-option>
+          <mat-option *ngIf="environment === 'Dust' || environment === 'Hybrid'" value="IIIA">IIIA</mat-option>
+          <mat-option *ngIf="environment === 'Dust' || environment === 'Hybrid'" value="IIIB">IIIB</mat-option>
+          <mat-option *ngIf="environment === 'Dust' || environment === 'Hybrid'" value="IIIC">IIIC</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Temperature Class (only visible if Environment is Gas or Hybrid) -->
+      <mat-form-field *ngIf="environment === 'Gas' || environment === 'Hybrid'" appearance="outline">
+        <mat-label>Temperature Class</mat-label>
+        <mat-select formControlName="TempClass">
+          <mat-option value="T1">T1</mat-option>
+          <mat-option value="T2">T2</mat-option>
+          <mat-option value="T3">T3</mat-option>
+          <mat-option value="T4">T4</mat-option>
+          <mat-option value="T5">T5</mat-option>
+          <mat-option value="T6">T6</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Max Temperature (only visible if Environment is Dust or Hybrid) -->
+      <mat-form-field *ngIf="environment === 'Dust' || environment === 'Hybrid'" appearance="outline">
+        <mat-label>Max Temperature (°C)</mat-label>
+        <input matInput type="number" formControlName="MaxTemp" />
+        <mat-error *ngIf="zoneForm.get('MaxTemp')?.hasError('min')">
+          Max temperature must be greater than 0
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Submit Button -->
+      <div class="submit">
+        <button mat-flat-button type="submit">Create Zone</button>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,36 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.menu {
+  display: flex;
+  gap: 5px;
+}
+
+.logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.mat-mdc-button {
+  transition: transform 0.3s ease-in-out, color 0.3s ease;
+  &:hover {
+    color: #FFC107;
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out, color 0.3s ease;
+  }
+}
+
+.active-link {
+  color: #FFC107 !important; /* Narancssárga szöveg */
+  font-weight: bold;        /* Opció: félkövér szöveg */
+}
+
+.mat-divider {
+  margin: 0 8px;
+}

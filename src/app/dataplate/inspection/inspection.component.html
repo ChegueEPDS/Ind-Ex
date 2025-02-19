@@ -1,0 +1,370 @@
+<div class="dbcontainer">
+    <div class="zone">
+        <p>Equipment</p>
+        <mat-form-field appearance="outline">
+            <mat-label>Equipment</mat-label>
+            <mat-select [(ngModel)]="selectedEquipmentId" (selectionChange)="loadDataForEquipmentId()">
+              <mat-option *ngFor="let equipment of equipmentList" [value]="equipment">
+                {{ equipment }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+      <p>Zone requirements:</p>
+      <!-- Environment selection -->
+      <mat-form-field appearance="outline">
+        <mat-label>Select Environment</mat-label>
+        <mat-select [(ngModel)]="selectedEnvironment"
+        (selectionChange)="updateSubgroups(); updateTempclass(); resetSelectionsOnEnvironmentChange()">
+          <mat-option value="Non Ex">Non Ex</mat-option>
+          <mat-option value="G">Gas</mat-option>
+          <mat-option value="D">Dust</mat-option>
+          <mat-option value="GD">Hybrid</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <!-- Subgroup selection -->
+      <mat-form-field style="max-width: 140px;" appearance="outline" *ngIf="selectedEnvironment === 'G' || selectedEnvironment === 'D' || selectedEnvironment === 'GD'">
+        <mat-label>Subgroup</mat-label>
+        <mat-select [(ngModel)]="selectedSubgroup">
+          <!--mat-option value="NA">unknown</mat-option-->
+          <mat-option *ngFor="let subgroup of availableSubgroups" [value]="subgroup">
+            {{ subgroup }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <!-- TempClass selection - Only visible when Environment is G or GD -->
+      <mat-form-field style="max-width: 140px;" appearance="outline" *ngIf="selectedEnvironment === 'G' || selectedEnvironment === 'GD'">
+        <mat-label>Temp.</mat-label>
+        <mat-select [(ngModel)]="selectedTempclass">
+          <!--mat-option value="NA">unknown</mat-option-->
+          <mat-option *ngFor="let Tempclass of availableTempclasses" [value]="Tempclass">
+            {{ Tempclass }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <!-- Surface Temp - Only visible when Environment is D or GD -->
+      <mat-form-field style="max-width: 140px;" appearance="outline" *ngIf="selectedEnvironment === 'D' || selectedEnvironment === 'GD'">
+        <mat-label>Max. Temp.</mat-label>
+        <input matInput 
+               type="number" 
+               min="0" max="999" 
+               placeholder="Maximum surface temp."
+               [(ngModel)]="selectedMaxTemp" 
+               maxlength="3" />
+      </mat-form-field>
+    </div>
+  
+    <!-- Data Table -->
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8, dbtable">
+    
+      <!-- Eszköz ID -->
+      <ng-container matColumnDef="EqID">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID #</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editModel">
+            {{ row['EqID'] || '-' }}
+          </ng-container>
+          <ng-template #editModel>
+            <input matInput [(ngModel)]="row['EqID']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Manufacturer -->
+      <ng-container matColumnDef="Manufacturer">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer</th>
+        <td mat-cell *matCellDef="let row">
+          <div
+            matTooltip="{{ row['Manufacturer'] }}"
+            class="truncate"
+          >
+          <ng-container *ngIf="!row.editMode; else editManufacturer">
+            {{ row.Manufacturer || '-' }}
+          </ng-container>
+          </div>
+          <ng-template #editManufacturer>
+            <input matInput [(ngModel)]="row['Manufacturer']" matTooltip="{{ row['Manufacturer'] }}" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Model/Type -->
+      <ng-container matColumnDef="Model/Type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editModel">
+            {{ row['Model/Type'] || '-' }}
+          </ng-container>
+          <ng-template #editModel>
+            <input matInput [(ngModel)]="row['Model/Type']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Serial Number -->
+      <ng-container matColumnDef="Serial Number">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>SN</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editSerial">
+            {{ row['Serial Number'] || '-' }}
+          </ng-container>
+          <ng-template #editSerial>
+            <input matInput [(ngModel)]="row['Serial Number']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Equipment Type -->
+      <ng-container matColumnDef="Equipment Type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editEquipType">
+            {{ row['Equipment Type'] || '-' }}
+          </ng-container>
+          <ng-template #editEquipType>
+            <input matInput [(ngModel)]="row['Equipment Type']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Marking -->
+      <ng-container matColumnDef="Marking">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ex Marking</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editMarking">
+            <div [innerHTML]="formatMarking(row.Marking)"></div> <!-- Csak a formázott tartalom -->
+          </ng-container>
+          <ng-template #editMarking>
+            <input matInput [(ngModel)]="row.Marking" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Equipment Group -->
+      <ng-container matColumnDef="Equipment Group">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
+        <td mat-cell *matCellDef="let row" class="center-cell">
+          <ng-container *ngIf="!row.editMode; else editGroup">
+            {{ row['Equipment Group'] || '-' }}
+          </ng-container>
+          <ng-template #editGroup>
+            <input matInput [(ngModel)]="row['Equipment Group']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Equipment Category -->
+      <ng-container matColumnDef="Equipment Category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let row" class="center-cell">
+          <ng-container *ngIf="!row.editMode; else editCategory">
+            {{ row['Equipment Category'] || '-' }}
+          </ng-container>
+          <ng-template #editCategory>
+            <input matInput [(ngModel)]="row['Equipment Category']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Environment -->
+      <ng-container matColumnDef="Environment">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Environment</th>
+        <td mat-cell 
+            *matCellDef="let row" 
+            class="center-cell" 
+            [ngClass]="{
+              'highlight-red': shouldHighlight(row.Environment)
+            }">
+          <ng-container *ngIf="!row.editMode; else editEnvironment">
+            {{ row.Environment || '-' }}
+          </ng-container>
+          <ng-template #editEnvironment>
+            <input matInput [(ngModel)]="row.Environment">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Type of Protection -->
+      <ng-container matColumnDef="Type of Protection">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Protection</th>
+        <td mat-cell *matCellDef="let row" class="center-cell">
+          <ng-container *ngIf="!row.editMode; else editProtection">
+            {{ row['Type of Protection'] || '-' }}
+          </ng-container>
+          <ng-template #editProtection>
+            <input matInput [(ngModel)]="row['Type of Protection']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Gas / Dust Group -->
+      <ng-container matColumnDef="Gas / Dust Group">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subgroup</th>
+        <td mat-cell 
+            *matCellDef="let row" 
+            class="center-cell"
+            [ngClass]="{'highlight-red': shouldHighlightSubgroup(row['Gas / Dust Group'])}">
+          <ng-container *ngIf="!row.editMode; else editGasDust">
+            {{ row['Gas / Dust Group'] || '-' }}
+          </ng-container>
+          <ng-template #editGasDust>
+            <input matInput [(ngModel)]="row['Gas / Dust Group']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Temperature Class -->
+      <ng-container matColumnDef="Temperature Class">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Temp. Class</th>
+        <td mat-cell 
+            *matCellDef="let row" 
+            class="center-cell"
+            [ngClass]="{'highlight-red': shouldHighlightC(row['Temperature Class'], selectedTempclass || '', selectedMaxTemp || 0)}">
+          <ng-container *ngIf="!row.editMode; else editTempClass">
+            {{ row['Temperature Class'] || '-' }}
+          </ng-container>
+          <ng-template #editTempClass>
+            <input matInput [(ngModel)]="row['Temperature Class']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Equipment Protection Level -->
+      <ng-container matColumnDef="Equipment Protection Level">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>EPL</th>
+        <td mat-cell *matCellDef="let row" class="center-cell">
+          <ng-container *ngIf="!row.editMode; else editEPL">
+            {{ row['Equipment Protection Level'] || '-' }}
+          </ng-container>
+          <ng-template #editEPL>
+            <input matInput [(ngModel)]="row['Equipment Protection Level']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- IP rating -->
+      <ng-container matColumnDef="IP rating">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>IP</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editIP">
+            {{ row['IP rating'] || '-' }}
+          </ng-container>
+          <ng-template #editIP>
+            <input matInput [(ngModel)]="row['IP rating']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Certificate No -->
+    <ng-container matColumnDef="Certificate No">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Cert. No</th>
+      <td mat-cell *matCellDef="let row">
+        <div
+          matTooltip="{{ row['Certificate No'] }}"
+          class="truncate"
+        >
+          <ng-container *ngIf="!row.editMode; else editCertNo">
+            {{ row['Certificate No'] || '-' }}
+          </ng-container>
+        </div>
+        <ng-template #editCertNo>
+          <input matInput [(ngModel)]="row['Certificate No']" matTooltip="{{ row['Certificate No'] }}" (keydown.enter)="saveRowToDatabase(row)">
+        </ng-template>
+      </td>
+    </ng-container>
+  
+      <!-- Max Ambient Temp -->
+      <ng-container matColumnDef="Max Ambient Temp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Max. Ta</th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="!row.editMode; else editMaxAmb">
+            {{ row['Max Ambient Temp'] || '-' }}
+          </ng-container>
+          <ng-template #editMaxAmb>
+            <input matInput [(ngModel)]="row['Max Ambient Temp']" (keydown.enter)="saveRowToDatabase(row)">
+          </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Other Info -->
+    <ng-container matColumnDef="Other Info">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Comment</th>
+      <td mat-cell *matCellDef="let row">
+        <div
+          matTooltip="{{ row['Other Info'] }}"
+          class="truncate"
+        >
+          <ng-container *ngIf="!row.editMode; else editOther">
+            {{ row['Other Info'] || '-' }}
+          </ng-container>
+        </div>
+        <ng-template #editOther>
+          <input matInput [(ngModel)]="row['Other Info']" matTooltip="{{ row['Other Info'] }}" (keydown.enter)="saveRowToDatabase(row)">
+        </ng-template>
+      </td>
+    </ng-container>
+  
+    <!-- Compliance -->
+    <ng-container matColumnDef="Compliance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance</th>
+      <td mat-cell class="center-cell" *matCellDef="let row">
+        <!-- Normál mód -->
+        <ng-container *ngIf="!row.editMode; else editCompliance">
+          <span [ngClass]="{
+              'compliance-na': row['Compliance'] === 'NA',
+              'compliance-failed': row['Compliance'] === 'Failed',
+              'compliance-passed': row['Compliance'] === 'Passed'
+            }">
+            {{ row['Compliance'] || 'NA' }}
+          </span>
+        </ng-container>
+    
+        <!-- Szerkesztési mód -->
+        <ng-template #editCompliance>
+          <select class="compliance-select" [(ngModel)]="row['Compliance']"  (keydown.enter)="saveRowToDatabase(row)">
+            <option *ngFor="let option of complianceOptions" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </ng-template>
+      </td>
+    </ng-container>
+  
+    <!-- Header and Row -->
+      <tr mat-header-row  *matHeaderRowDef="displayedColumnsDb sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsDb;"
+        (click)="selectRow(row)"
+        [ngClass]="{'selected': selection.isSelected(row)}">
+      </tr>-row
+    </table>
+  
+    <div class="cert" *ngIf="selectedCertificateDetails.length > 0; else noCertificates">
+        <div *ngFor="let cert of selectedCertificateDetails; let i = index" class="cert-detail">
+          <div class=certfound>
+            <h4>Certificate no: {{ cert.certNo || '-' }}</h4>
+            <button mat-button>
+              <mat-icon>download</mat-icon>
+              Download cert.
+            </button>
+          </div>
+            
+          <!-- Formázott Spec Condition -->
+          <div *ngIf="cert.specCondition">
+            <div *ngFor="let sentence of formatSpecCondition(cert.specCondition)">
+              <p>{{ sentence }}</p>
+            </div>
+          </div>
+          <p *ngIf="!cert.specCondition">Spec Condition: N/A</p>
+        </div>
+      </div>
+      
+      <ng-template #noCertificates>
+        <p>No certificates found in the database.</p>
+      </ng-template>
+
+  </div>

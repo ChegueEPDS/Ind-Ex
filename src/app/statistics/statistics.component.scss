@@ -1,0 +1,56 @@
+.statistics-container {
+  display: flex; 
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+  margin: auto;
+  padding: 20px 0;
+  top: 64px;
+  position: relative;
+  }
+  
+  mat-card {
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-card-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .global-avg {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .rating-stars {
+    display: flex;
+    align-items: center;
+  }
+  
+  .star {
+    font-size: 24px;
+    color: #ccc; /* Gray color for the unfilled stars */
+  }
+  
+  .full-star {
+    color: gold; /* Yellow color for fully filled stars */
+  }
+  
+  .half-star {
+    position: relative;
+    display: inline-block;
+    color: #ccc; 
+  }
+  
+.half-star::before {
+    content: 'star';
+    color: gold; 
+    position: absolute;
+    top: 0;
+    left: 0; 
+    width: 50%;
+    overflow: hidden;
+  } 

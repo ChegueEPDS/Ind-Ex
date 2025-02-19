@@ -1,0 +1,13 @@
+.dataplate-container {
+  max-width: 100%;
+  margin: auto;
+  top: 64px;
+  position: relative;
+  overflow: hidden; /* Megakadályozza a vízszintes görgetést a teljes képernyőn */
+  height: calc(100vh - 64px);
+  }
+
+.tab-icon {
+  margin-right: 4px;
+  scale: 0.75;
+}

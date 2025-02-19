@@ -1,0 +1,117 @@
+.dbcontainer {
+  overflow: hidden; /* Prevents unintended scrollbars outside the container */
+  padding: 16px;
+  height: calc(100vh - 146px); /* Adjusts container height for header/footer */
+  width: calc(100% - 32px); /* Ensures full-width minus padding */
+  display: flex;
+  flex-direction: column; /* Ensures children stack vertically */
+}
+
+.dbtable {
+  overflow: auto; /* Enables both horizontal and vertical scrolling */
+  display: block; /* Ensures proper scrolling behavior */
+  white-space: nowrap; /* Prevents table content from wrapping */
+  width: 100%; /* Matches the container width */
+}
+
+  .actions-column {
+    display: inline-flex;
+    align-items: center;
+    border-right: none;
+  }
+  
+  .truncate {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2; /* Limit to two lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allow wrapping within two lines */
+    max-width: 18ch; /* Limit to approximately 18 characters wide */
+    line-height: 1.5em; /* Adjust line height for better spacing */
+    cursor: pointer; /* Indicate interactivity for the tooltip */
+  }
+
+  .tablefooter {
+    box-shadow:  0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    border-top: solid 1px black;
+  }
+
+  .toolbarfooter {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .searchdwld {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .footerbtns {
+    display: flex;
+    transform: translateX(-44px)
+  }
+
+  .search-field {
+    width: 300px;
+    scale: 0.75;
+    transform: translateX(-30px);
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .center-cell {
+    text-align: center;
+  }
+   .mat-cell {
+    border-right: dotted 1px black;
+   }
+
+   .full-width {
+    width: 100%;
+  }
+
+  .compliance-select {
+    width: 100%;
+  }
+
+  .compliance-na {
+    color: #fcb040;
+    font-weight: bold;
+  }
+  
+  .compliance-failed {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .compliance-passed {
+    color: green;
+    font-weight: bold;
+  }
+
+  .highlight-red {
+    background-color: #ff00002e
+  }
+
+  .zone {
+    display: flex;
+    gap: 16px;
+    p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    .mat-mdc-form-field {
+      width: fit-content;
+    }
+  }
+
+  .invalid-input {
+    border: 2px solid red !important; /* Piros keret */
+    color: red !important; /* Piros szöveg */
+    background-color: #ffe6e6; /* Halvány piros háttér opcionálisan */
+  }

@@ -1,0 +1,74 @@
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 15px;
+}
+
+/* Chat stílusok */
+.questionbox, .answerbox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.questionbox .question, .answerbox .answer {
+  padding: 12px;
+  border-radius: 15px;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.questionbox .question {
+  background-color: #ebe1d9;
+  border-radius: 0px 15px 15px 15px;
+}
+
+.answerbox .answer {
+  background-color: #ffeedc;
+  border-radius: 0 15px 15px 15px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out; /* Sima átmenet a magasságváltásnál */
+  white-space: normal; /* Normál sortörés a szöveghez */
+  text-overflow: ellipsis; /* Ha összecsukott állapotban levágja a szöveget */
+}
+
+/* A válasz összecsukása és kibontása */
+.answerbox {
+  position: relative;
+}
+
+/* Az alapértelmezett magasság összecsukott állapotban */
+.answer.collapsed {
+  max-height: 80px; /* Kb. 5 sor magassága összecsukott állapotban */
+}
+
+/* A tartalom maximális magassága kibontott állapotban, dinamikusan frissül */
+.answer.expanded {
+  max-height: 500px; /* Ez dinamikusan állítható TypeScript segítségével */
+}
+
+.answerbox button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.roleq, .rolea {
+  font-size: 0.8rem;
+  color: #6a5c4c;
+  margin-bottom: 5px;
+}
+
+.rotated {
+  transform: rotate(90deg); /* 90 fokkal elforgatva lefelé kibontáskor */
+  transition: transform 0.3s ease-in-out; /* Simább átmenet az ikon forgatásánál */
+}
+
+mat-icon {
+  transition: transform 0.3s ease-in-out; /* Az ikon forgásának animációja */
+}

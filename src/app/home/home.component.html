@@ -1,0 +1,161 @@
+<div class="container">
+    <h2>Introduction to the ExAI System</h2>
+    <div class="demo">
+      <mat-card>
+        <mat-card-content>
+          <p>
+            The ExAI system is currently in the development and testing phase. Its purpose is to provide users with advanced AI-driven functionalities tailored to support daily operations and enhance efficiency. While the system is operational, it is still undergoing refinements based on user feedback to ensure it meets expectations across all use cases.
+          </p>
+    
+          <h3>Current Features (in beta phase):</h3>
+    
+          <mat-accordion multi="false">
+            
+            <!-- AI-Driven Assistant -->
+            <mat-expansion-panel class="custom-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title> AI-Driven Assistant </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                The system utilizes an AI model extended with a proprietary knowledge base. With basic configuration settings in place, the system's responses can be customized for various use cases to adjust the content, detail, and quality of questions and answers. 
+              </p>
+              <p>Testing and feedback will be crucial to finalizing its behavior and refining the AI's capabilities.</p>
+            </mat-expansion-panel>
+    
+            <!-- Ex Register -->
+            <mat-expansion-panel class="custom-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title> Ex Register </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                This feature recognizes and registers data using AI-enhanced OCR technology, enabling users to extract and save information into a structured table. Users can create and manage equipment lists, define compliance states, and export the Ex Register in XLSX format.
+              </p>
+              <p>
+                The system currently handles cases where multiple Ex markings appear on a dataplate by registering each marking in a separate row.
+              </p>
+              <p>
+                Additionally, users can create sites and projects, defining associated Ex or Non-Ex zones within them. Equipment can be assigned to these zones, allowing for better categorization and management of assets. This structured approach enhances visibility and organization, ensuring a more efficient compliance and documentation process.
+              </p>
+            </mat-expansion-panel>
+    
+            <!-- ATEXdb -->
+            <mat-expansion-panel class="custom-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title> ATEXdb </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                Store your certificates and/or access ATEXdb community certificates to get instant information about certificates and special conditions. Save time on administration and get special conditions at your hands while inspecting equipment.
+              </p>
+              <p>The demo version is for presentational purposes and has limited access to our database.</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="custom-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title> XLSX Tool </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                The XLSX Tool enables fast and efficient comparison of different versions of Excel spreadsheets. Uploaded files are analyzed, and differences are highlighted in multiple formats:
+              </p>
+              <ul>
+                <li>A detailed Excel sheet that visually marks differences.</li>
+                <li>A structured list for quick review.</li>
+                <li>A textual summary explaining the modifications.</li>
+              </ul>
+              <p>
+                This feature is particularly useful for long-term projects where multiple people collaborate on documents, and different versions are created frequently. The comparison process ensures transparency and improves workflow efficiency by clearly identifying changes between versions.
+              </p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="custom-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title> Object Recognizer </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                The Object Recognizer is an AI-powered image recognition tool designed to assist logistics and storage departments with real-time product type identification and registration. By analyzing uploaded images, the system aims to streamline inventory management and improve operational efficiency.
+              </p>
+              <ul>
+                <li>Identifies products in real-time using AI-based recognition.</li>
+                <li>Automates / Helps registration of detected items in the system.</li>
+              </ul>
+              <p>
+                The tool requires a **pretrained AI model**, which is must be custom trsined and development for each individual usecase. In its current demo state, full functionality is not yet available. However, users can explore the concept through a **presentation mode**, where images of products placed on a designated base with a predefined background can be uploaded for analysis.
+              </p>
+            </mat-expansion-panel>
+    
+            <!-- Image Analysis for Fire Investigation (Admin Only) -->
+            <mat-expansion-panel class="custom-panel" *ngIf="isAdmin">
+              <mat-expansion-panel-header>
+                <mat-panel-title> Image Analysis for Fire Investigation </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                Designed for post-fire image analysis, this feature examines fire and burn marks on images. Currently, this function is in its demonstration phase, with limited capabilities.
+              </p>
+              <p>Further enhancements are planned based on testing and input from users to align it with real-world requirements.</p>
+            </mat-expansion-panel>
+    
+          </mat-accordion>
+    
+          <h3>Your Feedback Matters:</h3>
+          <p>
+            The ultimate goal of ExAI is to enable efficient knowledge management and facilitate easy access to proprietary documents for smoother daily operations. Additionally, compliance with relevant legislation is a key focus, ensuring high-quality service delivery in the healthcare sector and beyond.
+          </p>
+          <p>
+            We encourage all users to actively test the system and share their feedback. Your contributions will play a vital role in shaping a tool that meets the diverse needs of all stakeholders. Thank you for your support in this development journey!
+          </p>
+    
+        </mat-card-content>
+      </mat-card>
+    
+            <mat-card class="img-card">
+                <mat-card-content>
+                    <img src="/public/ExAI logo small.png" alt=""> 
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+
+        <h2>AI Tools</h2>
+        <div class="tools">
+            <mat-card matRipple [routerLink]="['/assistant']">
+              <mat-icon class="bigicon">chat</mat-icon>
+              <h3>AI ASSISTANT</h3>
+            </mat-card>
+
+            <mat-card matRipple class="tools" [routerLink]="['/sites']">
+              <mat-icon class="bigicon">work</mat-icon>
+              <h3>ExREGISTER</h3>
+            </mat-card>
+
+            <mat-card matRipple [routerLink]="['/xls']">
+              <mat-icon class="bigicon">compare</mat-icon>
+              <h3>XLSX TOOL</h3>
+            </mat-card>
+
+            <mat-card matRipple class="tools" [routerLink]="['/img']">
+              <mat-icon class="bigicon">photo_camera</mat-icon>
+              <h3>OBJECT RECOGNIZER</h3>
+            </mat-card>
+
+            <mat-card class="notool">
+              <mat-icon class="bigicon">more_horiz</mat-icon>
+              <h3>ADD YOUR IDEA</h3>
+            </mat-card>
+
+
+        </div>
+
+
+    <h2>Contacts</h2>
+    <mat-card class="contactcard">
+        <mat-card-content>
+            <div class="contact">
+                <strong>Contact person:&nbsp;</strong>Kovács Gergely <br>
+                <strong>Phone:&nbsp;</strong>+36 30 664 4472 <br>
+                <strong>E-Mail:&nbsp;</strong>kovacs&#64;epds.hu <br>
+            </div>
+            <div class="epdslogo">
+                <img src="/public/logo.png" alt="">
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

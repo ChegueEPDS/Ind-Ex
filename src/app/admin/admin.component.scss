@@ -1,0 +1,33 @@
+.settings {
+    max-width: 1000px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "row1 row2"
+        "action1 action2";
+    grid-gap: 20px; // Optional: Adds space between the grid items
+
+    .row1 {
+        grid-area: row1;
+        mat-form-field.full-width {
+            width: 100%;
+            border-radius: 10px !important;
+          }
+    }
+
+    .row2 {
+        grid-area: row2;
+    }
+
+    .action {
+        grid-area: action1;
+        justify-self: center; // Centers the action div horizontally
+    }
+
+    .upload {
+        grid-area: action2;
+        justify-self: center; // Centers the action div horizontally
+        }
+}
