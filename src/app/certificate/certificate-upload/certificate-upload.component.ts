@@ -61,7 +61,7 @@ export class CertificateUploadComponent {
   isPdf: boolean = false;
   isLoading: boolean = false;
   isUploading: boolean = false;
-  selectedCertType: string = 'ATEX';
+  selectedCertType: string = 'IECEx';
   ocrText: string = ''; // 🔹 OCR eredmény tárolására
 
   constructor(private fb: FormBuilder, private http: HttpClient, private graphService: GraphService, private snackBar: MatSnackBar, private authService: AuthService) {
