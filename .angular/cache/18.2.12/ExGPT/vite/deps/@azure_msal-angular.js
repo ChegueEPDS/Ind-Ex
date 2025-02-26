@@ -1,4 +1,7 @@
 import {
+  Router
+} from "./chunk-WFVRJVJB.js";
+import {
   BrowserConfigurationAuthError,
   BrowserUtils_exports,
   EventMessageUtils,
@@ -10,9 +13,6 @@ import {
   WrapperSKU
 } from "./chunk-LDOCPSVY.js";
 import "./chunk-BJEL7BPU.js";
-import {
-  Router
-} from "./chunk-WFVRJVJB.js";
 import "./chunk-LW5ESSTA.js";
 import "./chunk-EU5CV5NF.js";
 import {

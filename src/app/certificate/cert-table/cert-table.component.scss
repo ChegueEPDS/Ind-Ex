@@ -13,3 +13,43 @@
   th {
     background-color: #eeeeee;
   }
+
+  .truncate-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Maximum 2 sor */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 3.6em; /* Két sor magasság */
+    line-height: 1.6em; /* Egy sor magassága */
+    white-space: normal; /* Több soros tördelés engedélyezése */
+    width: 100%;
+  }
+  
+  td {
+    max-width: 200px; /* Maximális szélesség */
+    word-wrap: break-word;
+    overflow: hidden;
+    white-space: normal; /* Több sor engedélyezése */
+  }
+
+  .mat-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-shadow:  0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    border-top: solid 1px black;
+  }
+
+  .actions-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Megakadályozza a sorba törést */
+  }
+  
+  .actions-container a {
+    display: flex;
+    align-items: center;
+  }
+
+  

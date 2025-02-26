@@ -8,7 +8,7 @@
       </mat-card-header>
       <mat-card-content>
         <button mat-button (click)="loginWithMicrosoft()" type="button" class="microsoft-login-btn">
-          <mat-icon class="custom-mat-icon">
+          <mat-icon class="material-symbols-outlined custom-mat-icon">
             <img src="public/microsoft-icon.svg" alt="Microsoft logo">
           </mat-icon>
           Login with ExWorks ID
@@ -28,7 +28,7 @@
               (click)="clickEvent($event)"
               [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="hide()">
-              <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-icon class="material-symbols-outlined">{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
         </div>

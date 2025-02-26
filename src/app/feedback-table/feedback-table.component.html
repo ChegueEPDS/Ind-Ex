@@ -20,7 +20,7 @@
         <div #answerContent class="answer" [ngClass]="{ 'collapsed': !expandedRows[rowIndex] }" [style.maxHeight]="expandedRows[rowIndex] ? 'none' : '80px'" [innerHTML]="element.answer">
         </div>
         <button mat-icon-button (click)="toggleExpand(rowIndex)">
-          <mat-icon [ngClass]="{ 'rotated': expandedRows[rowIndex] }">chevron_right</mat-icon>
+          <mat-icon class="material-symbols-outlined" [ngClass]="{ 'rotated': expandedRows[rowIndex] }">chevron_right</mat-icon>
         </button>
       </td>
     </ng-container>

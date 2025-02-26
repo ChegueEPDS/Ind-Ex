@@ -7,60 +7,60 @@
   <!-- Mobil nézet: Menü ikon alatti menü -->
   <div class="menu" *ngIf="isMobileView">
     <button mat-button *ngIf="!isLoggedIn" (click)="EPDS()">
-      <mat-icon>language</mat-icon>EPDS
+      <mat-icon class="material-symbols-outlined">language</mat-icon>EPDS
     </button>
     <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Mobil menü">
-      <mat-icon>menu</mat-icon>
+      <mat-icon class="material-symbols-outlined">menu</mat-icon>
     </button>
     <mat-menu #mobileMenu="matMenu">
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/home']">
-        <mat-icon>home</mat-icon>
+        <mat-icon class="material-symbols-outlined">home</mat-icon>
         Kezdőlap
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/assistant']">
-        <mat-icon>chat</mat-icon>
+        <mat-icon class="material-symbols-outlined">chat</mat-icon>
         AI Asszisztens
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/sites']">
-        <mat-icon>work</mat-icon>
+        <mat-icon class="material-symbols-outlined">work</mat-icon>
         ExRegister
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/xls']">
-        <mat-icon>compare</mat-icon>
+        <mat-icon class="material-symbols-outlined">compare</mat-icon>
         XLSX Tool
       </button>
       <button mat-menu-item *ngIf="isLoggedIn"  [routerLink]="['/img']">
-        <mat-icon>photo_camera</mat-icon>
+        <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
         Object recognizer
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/cert']">
-        <mat-icon>document_scanner</mat-icon>
+        <mat-icon class="material-symbols-outlined">document_scanner</mat-icon>
         ATEXdb
       </button>
       <button mat-menu-item *ngIf="isAdmin" [matMenuTriggerFor]="adminSubMenu">
-        <mat-icon>settings</mat-icon>
+        <mat-icon class="material-symbols-outlined">settings</mat-icon>
         Admin
       </button>
       <mat-menu #adminSubMenu="matMenu">
         <button mat-menu-item [routerLink]="['/stat']">
-          <mat-icon>bar_chart</mat-icon>
+          <mat-icon class="material-symbols-outlined">bar_chart</mat-icon>
           Statisztikák
         </button>
         <button mat-menu-item [routerLink]="['/feedback']">
-          <mat-icon>feedback</mat-icon>
+          <mat-icon class="material-symbols-outlined">feedback</mat-icon>
           Visszajelzések
         </button>
         <button mat-menu-item [routerLink]="['/admin']">
-          <mat-icon>settings</mat-icon>
+          <mat-icon class="material-symbols-outlined">settings</mat-icon>
           Beállítások
         </button>
       </mat-menu>
       <mat-divider *ngIf="isLoggedIn"></mat-divider>
       <button mat-menu-item *ngIf="isLoggedIn">
-        <mat-icon>manage_accounts</mat-icon>Profilom
+        <mat-icon class="material-symbols-outlined">manage_accounts</mat-icon>Profilom
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
-        <mat-icon>logout</mat-icon>Kilépés
+        <mat-icon class="material-symbols-outlined">logout</mat-icon>Kilépés
       </button>
     </mat-menu>
   </div>
@@ -76,34 +76,34 @@
     <button mat-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu" routerLinkActive="active-link">ADMIN</button>
     <mat-menu #adminMenu="matMenu">
       <button mat-menu-item [routerLink]="['/stat']">
-        <mat-icon>bar_chart</mat-icon>
+        <mat-icon class="material-symbols-outlined">bar_chart</mat-icon>
         Statistics
       </button>
       <button mat-menu-item [routerLink]="['/feedback']">
-        <mat-icon>feedback</mat-icon>
+        <mat-icon class="material-symbols-outlined">feedback</mat-icon>
         Feedbacks
       </button>
       <button mat-menu-item [routerLink]="['/admin']">
-        <mat-icon>settings</mat-icon>
+        <mat-icon class="material-symbols-outlined">settings</mat-icon>
         Admin
       </button>
     </mat-menu>
     <mat-divider *ngIf="isLoggedIn" [vertical]="true"></mat-divider>
     <button *ngIf="!isLoggedIn" mat-button (click)="EPDS()">
-      <mat-icon>language</mat-icon>EPDS
+      <mat-icon class="material-symbols-outlined">language</mat-icon>EPDS
     </button>
     <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User settings">
-      <mat-icon>menu</mat-icon>
+      <mat-icon class="material-symbols-outlined">menu</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">
       <button mat-menu-item [routerLink]="['/users']">
-        <mat-icon>manage_accounts</mat-icon>
+        <mat-icon class="material-symbols-outlined">manage_accounts</mat-icon>
         User settings</button>
       <button mat-menu-item>
-        <mat-icon>subscriptions</mat-icon>
+        <mat-icon class="material-symbols-outlined">subscriptions</mat-icon>
         Subscription</button>
       <button mat-menu-item (click)="logout()">
-        <mat-icon>logout</mat-icon>
+        <mat-icon class="material-symbols-outlined">logout</mat-icon>
       Logout</button>
     </mat-menu>
   </div>

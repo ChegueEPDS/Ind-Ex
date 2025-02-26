@@ -27,6 +27,7 @@
     "express-validator": "^7.2.0",
     "file-saver": "^2.0.5",
     "marked": "^15.0.2",
+    "ng2-pdf-viewer": "^10.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",

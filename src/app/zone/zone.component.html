@@ -11,10 +11,10 @@
             <mat-card-subtitle>{{ zone.Description || 'No description' }}</mat-card-subtitle>
             <div class="action-buttons">
                 <button mat-icon-button (click)="openZoneDetails(zone)">
-                    <mat-icon>info_outlined</mat-icon>
+                    <mat-icon class="material-symbols-outlined">info_outlined</mat-icon>
                 </button>
                 <button mat-icon-button class="delete_button" (click)="deleteZone(zone._id)">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon class="material-symbols-outlined">delete</mat-icon>
                 </button>
             </div>
         </mat-card-header>
@@ -40,7 +40,7 @@
             matRipple 
             matRippleColor="rgba(0, 0, 0, 0.1)">
         <mat-card-content class="addcard">
-            <mat-icon>add</mat-icon>
+            <mat-icon class="material-symbols-outlined">add</mat-icon>
             New zone
         </mat-card-content>
     </mat-card>
@@ -49,7 +49,7 @@
 <div class="zone-container" *ngIf="!isLoading && zones.length === 0">
     <mat-card class="zone-card add-zone" (click)="openNewZoneDialog()">
         <mat-card-content class="addcard">
-            <mat-icon>add</mat-icon>
+            <mat-icon class="material-symbols-outlined">add</mat-icon>
             Add your first zone
         </mat-card-content>
     </mat-card>

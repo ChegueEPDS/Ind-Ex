@@ -3,7 +3,7 @@
     margin: auto;
     top: 64px;
     position: relative;
-    overflow: hidden; /* Megakadályozza a vízszintes görgetést a teljes képernyőn */
+    overflow-y: auto; /* Megakadályozza a vízszintes görgetést a teljes képernyőn */
     height: calc(100vh - 64px);
     }
   

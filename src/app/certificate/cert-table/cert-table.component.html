@@ -1,56 +1,148 @@
 <div class="table-container">
-   
-    <table mat-table [dataSource]="certificates" class="mat-elevation-z8">
-      
-      <!-- Certificate Number Column -->
-      <ng-container matColumnDef="certNo">
-        <th mat-header-cell *matHeaderCellDef> Certificate No </th>
-        <td mat-cell *matCellDef="let element"> {{element.certNo}} </td>
-      </ng-container>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="toggleAllRows()" [checked]="isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+                      [checked]="selection.isSelected(element)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
 
-      <!-- File Name Column -->
-      <ng-container matColumnDef="fileName">
-        <th mat-header-cell *matHeaderCellDef> File Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.fileName}} </td>
-      </ng-container>
+    <!-- Certificate Number Column -->
+    <ng-container matColumnDef="certNo">
+      <th mat-header-cell *matHeaderCellDef> Certificate No </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.certNo}}" class="truncate-text">{{element.certNo}}</span>
+      </td>
+    </ng-container>
 
-      <!-- xCondition Column -->
-      <ng-container matColumnDef="xcondition">
-        <th mat-header-cell *matHeaderCellDef> X </th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon *ngIf="element.xcondition; else noCondition">highlight_off</mat-icon>
-          <ng-template #noCondition>
-            N/A
-          </ng-template>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="scheme">
+      <th mat-header-cell *matHeaderCellDef> Certificate Scheme </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.scheme}}" class="truncate-text">{{element.scheme}}</span>
+      </td>
+    </ng-container>
 
-      <!-- specCondition Column -->
-      <ng-container matColumnDef="specCondition">
-        <th mat-header-cell *matHeaderCellDef> Specific Condition of Use</th>
-        <td mat-cell *matCellDef="let element"> {{element.specCondition || 'N/A'}} </td>
-      </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.status}}" class="truncate-text">{{element.status}}</span>
+      </td>
+    </ng-container>
 
-       <!-- Uploaded At Column -->
-       <ng-container matColumnDef="uploadedAt">
-        <th mat-header-cell *matHeaderCellDef> Updated </th>
-        <td mat-cell *matCellDef="let element"> {{element.uploadedAt | date:'short'}} </td>
-      </ng-container>
+    <ng-container matColumnDef="issueDate">
+      <th mat-header-cell *matHeaderCellDef> Date of Issue </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.issueDate}}" class="truncate-text">{{element.issueDate}}</span>
+      </td>
+    </ng-container>
 
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-          <a mat-icon-button [href]="element.fileUrl" target="_blank" aria-label="Download">
-            <mat-icon>download</mat-icon>
-          </a>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="applicant">
+      <th mat-header-cell *matHeaderCellDef> Applicant </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.applicant}}" class="truncate-text">{{element.applicant}}</span>
+      </td>
+    </ng-container>
 
-      <!-- Header and Rows -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    <ng-container matColumnDef="protection">
+      <th mat-header-cell *matHeaderCellDef> Type of Protection </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.protection}}" class="truncate-text">{{element.protection}}</span>
+      </td>
+    </ng-container>
 
-    <p *ngIf="certificates.length === 0" class="no-data">Nincsenek feltöltött tanúsítványok.</p>
-  </div>
+    <!-- Equipment Column -->
+    <ng-container matColumnDef="equipment">
+      <th mat-header-cell *matHeaderCellDef> Equipment </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.equipment}}" class="truncate-text">{{element.equipment || 'N/A'}}</span>
+      </td>
+    </ng-container>
+
+    <!-- Manufacturer Column -->
+    <ng-container matColumnDef="manufacturer">
+      <th mat-header-cell *matHeaderCellDef> Manufacturer </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.manufacturer}}" class="truncate-text">{{element.manufacturer || 'N/A'}}</span>
+      </td>
+    </ng-container>
+
+    <!-- Ex Marking Column -->
+    <ng-container matColumnDef="exmarking">
+      <th mat-header-cell *matHeaderCellDef> Ex Marking </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.exmarking}}" class="truncate-text">{{element.exmarking || 'N/A'}}</span>
+      </td>
+    </ng-container>
+
+    <!-- specCondition Column -->
+    <ng-container matColumnDef="specCondition">
+      <th mat-header-cell *matHeaderCellDef> Specific Condition of Use </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.specCondition}}" class="truncate-text">{{element.specCondition || 'N/A'}}</span>
+      </td>
+    </ng-container>
+
+    <!-- Uploaded At Column >
+    <ng-container matColumnDef="uploadedAt">
+      <th mat-header-cell *matHeaderCellDef> Updated </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="{{element.uploadedAt | date:'short'}}" class="truncate-text">{{element.uploadedAt | date:'short'}}</span>
+      </td>
+    </ng-container-->
+
+    <!-- Actions Column -->
+<ng-container matColumnDef="actions">
+  <th mat-header-cell *matHeaderCellDef> Actions </th>
+  <td mat-cell *matCellDef="let element">
+    <div class="actions-container">
+      <!-- 📜 Download Certificate (PDF) -->
+      <a mat-icon-button [href]="element.fileUrl" target="_blank" aria-label="Download PDF">
+        <mat-icon matTooltip="Download PDF" class="material-symbols-outlined">picture_as_pdf</mat-icon>
+      </a>
+
+      <!-- 📄 Download DOCX -->
+      <a *ngIf="element.docxUrl" mat-icon-button [href]="element.docxUrl" target="_blank" aria-label="Download DOCX">
+        <mat-icon matTooltip="Download DOCX" class="material-symbols-outlined">description</mat-icon>
+      </a>
+
+      <!-- ☁️ Open OneDrive Folder -->
+      <a *ngIf="element.folderUrl" mat-icon-button [href]="element.folderUrl" target="_blank" aria-label="Open OneDrive">
+        <mat-icon matTooltip="Open OneDrive" class="material-symbols-outlined">cloud</mat-icon>
+      </a>
+    </div>
+  </td>
+</ng-container>
+
+    <!-- Header and Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selectRow(row)"
+        [ngClass]="{'selected': selection.isSelected(row)}">
+    </tr>
+  </table>
+
+  <p *ngIf="dataSource.data.length === 0" class="no-data">Nincsenek feltöltött tanúsítványok.</p>
+
+  <mat-toolbar>
+    <div class="footer-buttons">
+      <button mat-icon-button (click)="exportToExcel()">
+        <mat-icon class="material-symbols-outlined">download</mat-icon>
+      </button>
+      <button mat-icon-button [disabled]="true">
+        <mat-icon class="material-symbols-outlined">edit</mat-icon>
+      </button>
+      <button mat-icon-button class="delete_button" (click)="deleteSelectedCertificates()" [disabled]="selection.selected.length === 0">
+        <mat-icon class="material-symbols-outlined">delete</mat-icon>
+      </button>
+    </div>
+    <span class="flex-spacer"></span>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-toolbar>
+</div>

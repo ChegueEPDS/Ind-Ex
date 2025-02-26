@@ -2,7 +2,7 @@
     <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">list</mat-icon>
+          <mat-icon class="material-symbols-outlined tab-icon">list</mat-icon>
           Certificate List
         </ng-template>
         <ng-container *ngIf="selectedTabIndex === 0">
@@ -11,7 +11,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">add</mat-icon>
+          <mat-icon class="material-symbols-outlined tab-icon">add</mat-icon>
           Add Certificate
         </ng-template>
         <ng-container *ngIf="selectedTabIndex === 1">

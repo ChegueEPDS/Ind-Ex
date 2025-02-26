@@ -376,27 +376,27 @@
           <mat-label>Search</mat-label>
           <input matInput (input)="applyFilter($event)" placeholder="Search in table" />
           <button mat-icon-button matSuffix (click)="clearSearch()" aria-label="Clear">
-            <mat-icon>close</mat-icon>
+            <mat-icon class="material-symbols-outlined">close</mat-icon>
           </button>
         </mat-form-field>
         <div class="footerbtns">
           <button mat-icon-button (click)="toggleEditMode()" [disabled]="selection.selected.length === 0" [hidden]="editInProgress" aria-label="Edit Row">
-            <mat-icon>edit</mat-icon>
+            <mat-icon class="material-symbols-outlined">edit</mat-icon>
           </button>
           <button mat-icon-button (click)="saveRow()" [hidden]="!editInProgress" aria-label="Save">
-            <mat-icon>save</mat-icon>
+            <mat-icon class="material-symbols-outlined">save</mat-icon>
           </button>
           <button mat-icon-button (click)="cancelEditSelectedRow()" [hidden]="!editInProgress" aria-label="Cancel Edit">
-            <mat-icon>cancel</mat-icon>
+            <mat-icon class="material-symbols-outlined">cancel</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteSelectedRowsFromDatabase()" [hidden]="editInProgress" [disabled]="selection.selected.length === 0">
-            <mat-icon>delete</mat-icon>
+            <mat-icon class="material-symbols-outlined">delete</mat-icon>
           </button>
           <button mat-icon-button (click)="openAssignToProjectDialog()" [disabled]="selection.selected.length === 0" aria-label="Assign to Project">
-            <mat-icon>assignment</mat-icon>
+            <mat-icon class="material-symbols-outlined">assignment</mat-icon>
           </button>
           <button mat-icon-button (click)="exportToExcel()" [hidden]="editInProgress" aria-label="Export">
-            <mat-icon>download</mat-icon>
+            <mat-icon class="material-symbols-outlined">download</mat-icon>
           </button>
         </div>
       </div>

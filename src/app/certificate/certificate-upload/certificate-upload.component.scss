@@ -1,13 +1,162 @@
 .upload-container {
-    max-width: 800px;
-    margin: 16px auto;
-    padding: 20px;
+  width: 80%;
+  margin: 16px auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 4px 1fr; /* Bal oszlop | Divider | Jobb oszlop */
+  gap: 16px;
+  align-items: stretch; /* 🔹 Az oszlopokat azonos magasságra állítjuk */
+  justify-items: center;
+  width: 100%;
+  @media (max-width: 768px) {
+      grid-template-columns: 1fr; /* 🔹 Mobilon egy oszlop */
   }
-  .form-field {
-    width: 100%;
-    margin-bottom: 16px;
+}
+
+.grid-item {
+  background: #fff8f5;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* 🔹 Függőlegesen középre igazítás */
+ // overflow-y: auto; /* 🔹 Görgethetővé tesszük, ha szükséges */
+}
+
+.form-container,
+.file-container {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* 🔹 Form és fájl feltöltés középre igazítása */
+  position: relative; /* 🔹 Szükséges a spinner pozicionálásához */
+  gap: 16px;
+  height: calc(100vh - 200px)
+}
+
+.file-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.divider {
+  width: 2px;
+  background-color: #84746a;
+  height: 95%;
+  border-radius: 2px;
+  align-self: center;
+}
+
+@media (max-width: 768px) {
+  .divider {
+      display: none; /* 🔹 Mobilon elrejtjük a vonalat */
   }
-  .response-message {
-    margin-top: 20px;
-    font-weight: bold;
-  }
+}
+
+form {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px; // Távolság az elemek között
+  justify-content: space-between; // Egyenletes elosztás
+  width: 100%;
+}
+
+.half-width {
+  width: 48%; // Az elemek szélessége egy sorban
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.checkbox-field {
+  margin-bottom: 16px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.response-message {
+  margin-top: 16px;
+  font-weight: bold;
+}
+
+/* 📌 OCR beolvasás alatti átlátszó fedés és a spinner */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.218); /* 🔹 Szürke átlátszó fedés */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+/* 📌 A fájl feltöltő tartalom halványítása, amikor az OCR fut */
+.file-container.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.bigicon {
+  color: #964900;
+  font-size: 204px; /* Állítsd be az ikon méretét */
+  height: 204px; /* Ha szükséges, állítsd be a magasságot */
+  width: 204px; /* Ha szükséges, állítsd be a szélességet */
+  align-self: center;
+  margin-bottom: 4px;
+}
+
+/* Fájl előnézet */
+.file-preview {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: calc(100vh - 275px); /* Maximum magasság */
+  overflow: auto; /* Ha a tartalom nagyobb, görgethető lesz */
+  margin: auto;
+}
+
+/* PDF előnézet */
+.pdf-frame, pdf-viewer {
+  width: 100%;
+  height: calc(100vh - 275px) !important;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Kép előnézet */
+.image-preview {
+  max-width: calc(100%); /* Teljes szélesség kivéve 16px padding mindkét oldalon */
+  min-height: calc(100vh - 275px); /* A konténer maximális magasságát betartja */
+  border-radius: 8px;
+  object-fit: contain; /* Megőrzi az arányokat és belefér a konténerbe */
+}

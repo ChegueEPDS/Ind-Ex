@@ -327,21 +327,21 @@
                 <ng-container *ngIf="row.editMode; else normalMode">
                   <!-- Mentés Gomb -->
                   <button mat-icon-button (click)="saveTemporaryChanges(row)">
-                    <mat-icon>done</mat-icon>
+                    <mat-icon class="material-symbols-outlined">done</mat-icon>
                   </button>
                   <!-- Mégsem Gomb -->
                   <button mat-icon-button (click)="cancelEdit(row)">
-                    <mat-icon>cancel</mat-icon>
+                    <mat-icon class="material-symbols-outlined">cancel</mat-icon>
                   </button>
                 </ng-container>
                 <ng-template #normalMode>
                   <!-- Szerkesztés Gomb -->
                   <button mat-icon-button (click)="toggleEditMode(row)">
-                    <mat-icon>edit</mat-icon>
+                    <mat-icon class="material-symbols-outlined">edit</mat-icon>
                   </button>
                   <!-- Törlés Gomb -->
                   <button mat-icon-button class="delete_button" (click)="confirmAndDeleteRow(row)">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon class="material-symbols-outlined">delete</mat-icon>
                   </button>
                 </ng-template>
               </div>
@@ -361,13 +361,13 @@
 
   <div class="bottombar">
     <button mat-flat-button color="primary" (click)="onFileSelect()" [disabled]="loading">
-      <mat-icon>photo_camera</mat-icon>
+      <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
       Add photo
     </button>
     <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
 
     <button mat-flat-button style="background-color: rgb(52, 51, 68);" (click)="saveToDatabase()" [disabled]="loading">
-      <mat-icon>save</mat-icon>
+      <mat-icon class="material-symbols-outlined">save</mat-icon>
       Save
     </button>
   </div>

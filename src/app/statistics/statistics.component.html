@@ -22,7 +22,7 @@
         <div class="rating-stars">
           <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
             <mat-icon
-              class="star"
+            class="material-symbols-outlined star"
               [ngClass]="{
                 'full-star': i < globalAverageRating,
                 'half-star': i === Math.floor(globalAverageRating) && globalAverageRating % 1 !== 0

@@ -12,8 +12,6 @@ const loginRequest = {
     "Mail.Read",            // Outlook levelek olvasása
     "Calendars.ReadWrite",  // Naptár események olvasása és létrehozása
     "Files.ReadWrite",      // OneDrive fájlok kezelése
-    "Sites.Read.All",       // SharePoint webhelyek olvasása
-    "Directory.Read.All"    // Azure AD felhasználók és csoportok olvasása (admin jóváhagyás szükséges!)
   ]
 };
 

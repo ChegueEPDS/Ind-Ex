@@ -9,7 +9,7 @@
         [class.disabled]="loading() || comparisonResult().length > 0"
         (click)="!loading() && comparisonResult().length === 0 && fileInput1.click()">
     <input #fileInput1 type="file" (change)="onFileChange($event, 1)" accept=".xlsx" hidden /> 
-    <mat-icon class="bigicon">upload</mat-icon> 
+    <mat-icon class="material-symbols-outlined bigicon">upload</mat-icon> 
     <h3>Original File</h3>
     <p *ngIf="file1()">📄 {{ file1()?.name }}</p>
     </div>
@@ -21,7 +21,7 @@
         [class.disabled]="loading() || comparisonResult().length > 0"
         (click)="!loading() && comparisonResult().length === 0 && fileInput2.click()">
     <input #fileInput2 type="file" (change)="onFileChange($event, 2)" accept=".xlsx" hidden />
-    <mat-icon class="bigicon">upload</mat-icon> 
+    <mat-icon class="material-symbols-outlined bigicon">upload</mat-icon> 
     <h3>New File</h3>
     <p *ngIf="file2()">📄 {{ file2()?.name }}</p>
     </div>
@@ -44,7 +44,7 @@
         [matRippleDisabled]="loading() || comparisonResult().length > 0"
         [class.disabled]="loading() || comparisonResult().length > 0"
         (click)="!loading() && comparisonResult().length === 0 && compareFiles()">
-    <mat-icon class="bigicon">compare</mat-icon> 
+    <mat-icon class="material-symbols-outlined bigicon">compare</mat-icon> 
     <h3>Compare Files</h3>
     </div>
     </div>
@@ -75,12 +75,12 @@
             <div class="download-column">
                 <h3>Downlod comparison Eccel:</h3>
                 <button mat-icon-button class="xlsbutton" (click)="downloadXlsx()">
-                    <mat-icon class="custom-mat-icon">
+                    <mat-icon class="material-symbols-outlined custom-mat-icon">
                         <img src="public/xlsx_icon.svg" alt="XLSX logo">
                       </mat-icon>
                 </button>
                 <button mat-button (click)="newComparison()">
-                    <mat-icon>compare</mat-icon>
+                    <mat-icon class="material-symbols-outlined">compare</mat-icon>
                     New Comparison
                   </button>
             </div>

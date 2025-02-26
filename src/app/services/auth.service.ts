@@ -266,4 +266,11 @@ export class AuthService {
   microsoftLogin(accessToken: string) {
     return this.http.post<{ token: string }>(`${this.baseUrl}/microsoft-login`, { accessToken });
   }
+  getUserId(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+  
+    const tokenData = this.parseJwt(token);
+    return tokenData.userId ?? null;
+  }
 }
