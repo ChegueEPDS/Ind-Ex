@@ -13,7 +13,11 @@
 .image-wrapper {
     position: relative;
     width: max-content;
-    margin-bottom: 50px;
+    margin: 30px auto;
+    img {
+      width: 200px;
+      height: auto;
+    }
   }
     
 .login-wrapper {
