@@ -48,6 +48,7 @@
         <!-- Jobb oszlop - Fájl feltöltése és előnézet -->
         <div class="grid-item form-container">
             <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+              <div>
                 <!-- Certificate Number és Status egy sorban -->
                 <div class="form-row">
                   <mat-form-field appearance="outline" class="form-field half-width">
@@ -116,7 +117,8 @@
                             [cdkAutosizeMaxRows]="5">
                   </textarea>
                 </mat-form-field>
-              
+              </div>
+              <div>
                 <!-- Feltöltés gomb -->
                 <button mat-flat-button type="submit" [disabled]="uploadForm.invalid || !file || isUploading">
                     <mat-icon class="material-symbols-outlined" *ngIf="!isUploading">upload</mat-icon>
@@ -127,6 +129,7 @@
                 <div *ngIf="responseMessage" class="response-message">
                   {{ responseMessage }}
                 </div>
+              </div>
               </form>
         </div>
     </div>
