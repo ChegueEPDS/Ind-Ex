@@ -29,13 +29,13 @@
         <mat-icon class="material-symbols-outlined">compare</mat-icon>
         XLSX Tool
       </button>
-      <button mat-menu-item *ngIf="isLoggedIn"  [routerLink]="['/img']">
+      <!--button mat-menu-item *ngIf="isLoggedIn"  [routerLink]="['/img']">
         <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
         Object recognizer
-      </button>
+      </button-->
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/cert']">
         <mat-icon class="material-symbols-outlined">document_scanner</mat-icon>
-        ATEXdb
+        Certificates
       </button>
       <button mat-menu-item *ngIf="isAdmin" [matMenuTriggerFor]="adminSubMenu">
         <mat-icon class="material-symbols-outlined">settings</mat-icon>
@@ -70,9 +70,9 @@
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/home']" routerLinkActive="active-link">HOME</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/assistant']" routerLinkActive="active-link">AI ASSISTANT</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/sites']" routerLinkActive="active-link">Ex REGISTER</button>
-    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/cert']" routerLinkActive="active-link">ATEX DB</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/cert']" routerLinkActive="active-link">CERTIFICATES</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/xls']" routerLinkActive="active-link">XLSX TOOL</button>
-    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/img']" routerLinkActive="active-link">OBJECT RECOGNIZER </button>
+    <!--button mat-button *ngIf="isLoggedIn" [routerLink]="['/img']" routerLinkActive="active-link">OBJECT RECOGNIZER </button-->
     <button mat-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu" routerLinkActive="active-link">ADMIN</button>
     <mat-menu #adminMenu="matMenu">
       <button mat-menu-item [routerLink]="['/stat']">

@@ -804,7 +804,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
     if (!tempclass) return false;
 
     const tempClassRank: { [key: string]: number } = {
-      'T1': 6, 'T2': 5, 'T3': 4, 'T4': 3, 'T5': 2, 'T6': 1
+      'T1': 1, 'T2': 2, 'T3': 3, 'T4': 4, 'T5': 5, 'T6': 6
     };
 
     // TempClass vizsgálat
