@@ -1,136 +1,151 @@
 <div class="upload-container">
-    <div class="grid-container">
-        <!-- Bal oszlop - Űrlap mezők -->
-        <div class="grid-item file-container">
-            <!-- Szürke fedés és progress spinner beolvasás közben -->
-            <div *ngIf="isLoading" class="loading-overlay">
-                <mat-spinner diameter="40"></mat-spinner>
-            </div>
+  <div class="grid-container">
+      <!-- Bal oszlop - Űrlap mezők -->
+      <div class="grid-item file-container">
+          <!-- Szürke fedés és progress spinner beolvasás közben -->
+          <div *ngIf="isLoading" class="loading-overlay">
+              <mat-spinner diameter="40"></mat-spinner>
+          </div>
 
-            <!-- Fájl előnézet -->
-            <div *ngIf="!filePreviewUrl" class="file-preview">
-                <mat-icon class="material-symbols-outlined bigicon">find_in_page</mat-icon>
-            </div>
-            <div *ngIf="filePreviewUrl" class="file-preview">
-                <!-- PDF előnézet -->
-                <pdf-viewer 
-                    *ngIf="isPdf" 
-                    [src]="filePreviewUrl" 
-                    [original-size]="false">
-                </pdf-viewer>
-                <!-- Kép előnézet -->
-                <img *ngIf="!isPdf" [src]="filePreviewUrl" class="image-preview"/>    
-            </div>
+          <!-- Fájl előnézet -->
+          <div *ngIf="!filePreviewUrl" class="file-preview">
+              <mat-icon class="material-symbols-outlined bigicon">find_in_page</mat-icon>
+          </div>
+          <div *ngIf="filePreviewUrl" class="file-preview">
+              <!-- PDF előnézet -->
+              <pdf-viewer 
+                  *ngIf="isPdf" 
+                  [src]="filePreviewUrl" 
+                  [original-size]="false">
+              </pdf-viewer>
+              <!-- Kép előnézet -->
+              <img *ngIf="!isPdf" [src]="filePreviewUrl" class="image-preview"/>    
+          </div>
 
-            <div class="file-input-container">
-                <!-- Tanúsítvány típus kiválasztása -->
-                <mat-button-toggle-group [(ngModel)]="selectedCertType" name="certType">
-                  <mat-button-toggle value="IECEx">IECEx</mat-button-toggle>
+          <div class="file-input-container">
+              <!-- Tanúsítvány típus kiválasztása -->
+              <mat-button-toggle-group [(ngModel)]="selectedCertType" name="certType">
+                <mat-button-toggle value="IECEx">IECEx</mat-button-toggle>
                   <mat-button-toggle value="ATEX">ATEX</mat-button-toggle>
-                </mat-button-toggle-group>
+              </mat-button-toggle-group>
 
-                <!-- Rejtett fájlválasztó -->
-                <input #fileInput type="file" (change)="onFileSelected($event)" 
-                        accept="application/pdf" 
-                        style="display: none;" />
+              <!-- Rejtett fájlválasztó -->
+              <input #fileInput type="file" (change)="onFileSelected($event)" 
+                      accept="application/pdf" 
+                      style="display: none;" />
+          
+              <!-- Beolvasás gomb -->
+              <button mat-flat-button (click)="fileInput.click()" [disabled]="isLoading">
+                  <mat-icon class="material-symbols-outlined">find_in_page</mat-icon>
+                  Read certificate
+              </button>
+          </div>
+      </div>
+
+      <!-- Elválasztó vonal (Divider) -->
+      <div class="divider"></div>
+
+      <!-- Jobb oszlop - Fájl feltöltése és előnézet -->
+      <div class="grid-item form-container">
+          <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+            <div>
+              <!-- Certificate Number és Status egy sorban -->
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field half-width">
+                  <mat-label>Certificate Number</mat-label>
+                  <input matInput formControlName="certNo" placeholder="Enter Certificate No" />
+                </mat-form-field>
             
-                <!-- Beolvasás gomb -->
-                <button mat-flat-button (click)="fileInput.click()" [disabled]="isLoading">
-                    <mat-icon class="material-symbols-outlined">find_in_page</mat-icon>
-                    Read certificate
-                </button>
+                <mat-form-field *ngIf="selectedCertType !== 'ATEX'" appearance="outline" class="form-field half-width">
+                  <mat-label>Status</mat-label>
+                  <input matInput formControlName="status" placeholder="Enter Status" />
+                </mat-form-field>
+              </div>
+            
+              <!-- Date of Issue és Applicant egy sorban -->
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field half-width">
+                  <mat-label>Date of Issue</mat-label>
+                  <input matInput formControlName="issueDate" placeholder="Date of Issue" />
+                </mat-form-field>
+            
+                <mat-form-field *ngIf="selectedCertType !== 'ATEX'" appearance="outline" class="form-field half-width">
+                  <mat-label>Applicant</mat-label>
+                  <input matInput formControlName="applicant" placeholder="Enter Applicant" />
+                </mat-form-field>
+              </div>
+            
+              <!-- Equipment és Manufacturer egy sorban -->
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field half-width">
+                  <mat-label>Equipment</mat-label>
+                  <input matInput formControlName="equipment" placeholder="Enter Equipment Name" />
+                </mat-form-field>
+            
+                <mat-form-field appearance="outline" class="form-field half-width">
+                  <mat-label>Manufacturer</mat-label>
+                  <input matInput formControlName="manufacturer" placeholder="Enter Manufacturer Name" />
+                </mat-form-field>
+              </div>
+            
+              <!-- Ex Marking egy teljes sor -->
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Ex Marking</mat-label>
+                <input matInput formControlName="exmarking" placeholder="Enter Ex Marking" />
+              </mat-form-field>
+            
+              <!-- Type of Protection és X Condition egy sorban -->
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field half-width">
+                  <mat-label>Type of Protection</mat-label>
+                  <input matInput formControlName="protection" placeholder="Enter Protection methods" />
+                </mat-form-field>
+            
+                <mat-checkbox formControlName="xcondition" class="checkbox-field">
+                  X cond.
+                </mat-checkbox>
+                <mat-checkbox formControlName="ucondition" class="checkbox-field">
+                  U cond.
+                </mat-checkbox>
+              </div>
+            
+              <!-- Description egy teljes sor -->
+              <mat-form-field *ngIf="selectedCertType !== 'ATEX'" appearance="outline" class="form-field">
+                <mat-label>Description</mat-label>
+                <textarea matInput 
+                          formControlName="description"
+                          placeholder="Enter Specific Condition"
+                          cdkTextareaAutosize
+                          [cdkAutosizeMinRows]="5"
+                          [cdkAutosizeMaxRows]="5">
+                </textarea>
+              </mat-form-field>
+
+              <!-- Specific Condition egy teljes sor -->
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Specific Condition</mat-label>
+                <textarea matInput 
+                          formControlName="specCondition"
+                          placeholder="Enter Specific Condition"
+                          cdkTextareaAutosize
+                          [cdkAutosizeMinRows]="5"
+                          [cdkAutosizeMaxRows]="5">
+                </textarea>
+              </mat-form-field>
             </div>
-        </div>
-
-        <!-- Elválasztó vonal (Divider) -->
-        <div class="divider"></div>
-
-        <!-- Jobb oszlop - Fájl feltöltése és előnézet -->
-        <div class="grid-item form-container">
-            <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-              <div>
-                <!-- Certificate Number és Status egy sorban -->
-                <div class="form-row">
-                  <mat-form-field appearance="outline" class="form-field half-width">
-                    <mat-label>Certificate Number</mat-label>
-                    <input matInput formControlName="certNo" placeholder="Enter Certificate No" />
-                  </mat-form-field>
-              
-                  <mat-form-field *ngIf="selectedCertType !== 'ATEX'" appearance="outline" class="form-field half-width">
-                    <mat-label>Status</mat-label>
-                    <input matInput formControlName="status" placeholder="Enter Status" />
-                  </mat-form-field>
-                </div>
-              
-                <!-- Date of Issue és Applicant egy sorban -->
-                <div class="form-row">
-                  <mat-form-field appearance="outline" class="form-field half-width">
-                    <mat-label>Date of Issue</mat-label>
-                    <input matInput formControlName="issueDate" placeholder="Date of Issue" />
-                  </mat-form-field>
-              
-                  <mat-form-field *ngIf="selectedCertType !== 'ATEX'" appearance="outline" class="form-field half-width">
-                    <mat-label>Applicant</mat-label>
-                    <input matInput formControlName="applicant" placeholder="Enter Applicant" />
-                  </mat-form-field>
-                </div>
-              
-                <!-- Equipment és Manufacturer egy sorban -->
-                <div class="form-row">
-                  <mat-form-field appearance="outline" class="form-field half-width">
-                    <mat-label>Equipment</mat-label>
-                    <input matInput formControlName="equipment" placeholder="Enter Equipment Name" />
-                  </mat-form-field>
-              
-                  <mat-form-field appearance="outline" class="form-field half-width">
-                    <mat-label>Manufacturer</mat-label>
-                    <input matInput formControlName="manufacturer" placeholder="Enter Manufacturer Name" />
-                  </mat-form-field>
-                </div>
-              
-                <!-- Ex Marking egy teljes sor -->
-                <mat-form-field appearance="outline" class="form-field">
-                  <mat-label>Ex Marking</mat-label>
-                  <input matInput formControlName="exmarking" placeholder="Enter Ex Marking" />
-                </mat-form-field>
-              
-                <!-- Type of Protection és X Condition egy sorban -->
-                <div class="form-row">
-                  <mat-form-field appearance="outline" class="form-field half-width">
-                    <mat-label>Type of Protection</mat-label>
-                    <input matInput formControlName="protection" placeholder="Enter Protection methods" />
-                  </mat-form-field>
-              
-                  <mat-checkbox formControlName="xcondition" class="checkbox-field">
-                    X Condition
-                  </mat-checkbox>
-                </div>
-              
-                <!-- Specific Condition egy teljes sor -->
-                <mat-form-field appearance="outline" class="form-field">
-                  <mat-label>Specific Condition</mat-label>
-                  <textarea matInput 
-                            formControlName="specCondition"
-                            placeholder="Enter Specific Condition"
-                            cdkTextareaAutosize
-                            [cdkAutosizeMinRows]="5"
-                            [cdkAutosizeMaxRows]="5">
-                  </textarea>
-                </mat-form-field>
+            <div>
+              <!-- Feltöltés gomb -->
+              <button mat-flat-button type="submit" [disabled]="uploadForm.invalid || !file || isUploading">
+                  <mat-icon class="material-symbols-outlined" *ngIf="!isUploading">upload</mat-icon>
+                  <mat-spinner *ngIf="isUploading" diameter="24"></mat-spinner>
+                  <span *ngIf="!isUploading">Upload</span>
+                </button>
+            
+              <div *ngIf="responseMessage" class="response-message">
+                {{ responseMessage }}
               </div>
-              <div>
-                <!-- Feltöltés gomb -->
-                <button mat-flat-button type="submit" [disabled]="uploadForm.invalid || !file || isUploading">
-                    <mat-icon class="material-symbols-outlined" *ngIf="!isUploading">upload</mat-icon>
-                    <mat-spinner *ngIf="isUploading" diameter="24"></mat-spinner>
-                    <span *ngIf="!isUploading">Upload</span>
-                  </button>
-              
-                <div *ngIf="responseMessage" class="response-message">
-                  {{ responseMessage }}
-                </div>
-              </div>
-              </form>
-        </div>
-    </div>
+            </div>
+            </form>
+      </div>
+  </div>
 </div>

@@ -32,6 +32,7 @@ export interface Certificate {
   uploadedAt: string;
   xcondition?: boolean;
   specCondition?: string;
+  description?: string;
   scheme?: string;
 }
 
@@ -68,6 +69,7 @@ export class CertTableComponent implements OnInit, AfterViewInit {
     'exmarking',   
     'equipment',   
     'manufacturer',
+    'description',
     'specCondition',
     'actions'
   ];
@@ -155,18 +157,28 @@ export class CertTableComponent implements OnInit, AfterViewInit {
 
     // Fejléc létrehozása
     worksheet.columns = [
-      { header: 'Certificate No', key: 'certNo', width: 15 },
+      { header: 'Certificate No', key: 'certNo', width: 20 },
       { header: 'Scheme', key: 'scheme', width: 10 },
       { header: 'Status', key: 'status', width: 12 },
       { header: 'Date of Issue', key: 'issueDate', width: 15 },
-      { header: 'Applicant', key: 'applicant', width: 15 },
-      { header: 'Type of Protection', key: 'protection', width: 18 },
-      { header: 'Ex Marking', key: 'exmarking', width: 18 },
-      { header: 'Equipment', key: 'equipment', width: 15 },
-      { header: 'Manufacturer', key: 'manufacturer', width: 15 },
-      { header: 'Spec Condition', key: 'specCondition', width: 20 },
-      { header: 'Uploaded At', key: 'uploadedAt', width: 15 },
+      { header: 'Applicant', key: 'applicant', width: 40 },
+      { header: 'Type of Protection', key: 'protection', width: 30 },
+      { header: 'Ex Marking', key: 'exmarking', width: 30 },
+      { header: 'Equipment', key: 'equipment', width: 30 },
+      { header: 'Manufacturer', key: 'manufacturer', width: 40 },
+      { header: 'Description', key: 'description', width: 100 },
+      { header: 'Spec Condition', key: 'specCondition', width: 100 },
     ];
+
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FCB040' } }; // Narancssárga szöveg
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '2E2109' }, // Sötétszürke háttér
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' }; // Középre igazítás
+    });
 
     // Adatok hozzáadása
     exportData.forEach(cert => {
@@ -180,6 +192,7 @@ export class CertTableComponent implements OnInit, AfterViewInit {
         exmarking: cert.exmarking || '',
         equipment: cert.equipment || '',
         manufacturer: cert.manufacturer || '',
+        description: cert.description || '',
         specCondition: cert.specCondition || '',
         uploadedAt: cert.uploadedAt || ''
       });

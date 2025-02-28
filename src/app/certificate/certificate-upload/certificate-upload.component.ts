@@ -28,6 +28,7 @@ interface OcrResponse {
     exMarking?: string;
     protection?: string;
     specialConditions?: string;
+    description?: string;
   };
 }
 
@@ -72,7 +73,9 @@ export class CertificateUploadComponent {
       exmarking: [''],
       protection: [''],
       xcondition: [false],
+      ucondition: [false],
       specCondition: [''],
+      description: [''],
       status: [''],
       issueDate: [''],
       applicant: [''],
@@ -121,6 +124,7 @@ export class CertificateUploadComponent {
   
       // ✅ Automatikus OCR beolvasás fájl kiválasztása után
       this.sendToOcr();
+      input.value = '';
     }
   }
 
@@ -164,9 +168,14 @@ export class CertificateUploadComponent {
           exmarking: response.extractedData.exMarking || '',
           protection: response.extractedData.protection || '',
           specCondition: response.extractedData.specialConditions || '',
+          description: response.extractedData.description || '',
           xcondition: response.extractedData.certificateNumber
             ? /\bX\b/.test(response.extractedData.certificateNumber) || response.extractedData.certificateNumber.trim().endsWith("X")
-            : false
+            : false,
+          ucondition: response.extractedData.certificateNumber
+          ? /\bX\b/.test(response.extractedData.certificateNumber) || response.extractedData.certificateNumber.trim().endsWith("U")
+          : false,
+
         });
 
         this.showNotification('✅ OCR beolvasás sikeres!');
@@ -204,6 +213,8 @@ export class CertificateUploadComponent {
       formData.append("protection", this.uploadForm.value.protection);
       formData.append("xcondition", this.uploadForm.value.xcondition);
       formData.append("specCondition", this.uploadForm.value.specCondition);
+      formData.append("description", this.uploadForm.value.description);
+      formData.append("ucondition", this.uploadForm.value.ucondition);
       formData.append("scheme", this.uploadForm.value.scheme);
       formData.append("recognizedText", this.ocrText); // 🔹 OCR eredmény hozzáadása
   
