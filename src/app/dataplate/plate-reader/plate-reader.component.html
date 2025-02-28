@@ -374,14 +374,15 @@
   </div>
 
   <div class="bottombar">
+    <button mat-flat-button class="cancel_button" (click)="clearAllData()" [disabled]="loading || allEquipmentData.length === 0" >
+      <mat-icon class="material-symbols-outlined">delete_sweep</mat-icon>
+      Clear All
+    </button>
+
     <button mat-flat-button (click)="saveToDatabase()" [disabled]="loading || (allEquipmentData.length === 0)">
       <mat-icon class="material-symbols-outlined">save</mat-icon>
       Save All ({{ allEquipmentData.length }})
     </button>
-    
-    <button mat-flat-button color="warn" (click)="clearAllData()" [disabled]="loading || allEquipmentData.length === 0">
-      <mat-icon class="material-symbols-outlined">delete_sweep</mat-icon>
-      Clear All
-    </button>
+
   </div>
 </div>
