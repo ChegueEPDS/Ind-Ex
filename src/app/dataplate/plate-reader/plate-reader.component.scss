@@ -1,112 +1,118 @@
 .platereader {
-    height: calc(100vh - 146px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 16px;
-    justify-content: space-between;
+  height: calc(100vh - 146px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+  justify-content: space-between;
 }
 
 .content-area {
-    display: flex;
-    flex-direction: row;
-    min-height: 300px;
+  display: flex;
+  flex-direction: row;
+  min-height: 300px;
 }
 
 .loading-container {
-    margin: auto;
-    height: 100%;
-    display: flex;
-    justify-content: center;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .bottombar {
-    display: flex;
-    gap: 16px;
-    justify-content: center;    
+  display: flex;
+  gap: 16px;
+  justify-content: center;    
 }
-  
-  .left-panel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 25%;
-  }
-  
-  .right-panel {
-    width: 75%;
-    overflow: auto; /* Enable scrolling if content is too large */
-  }
-  
 
-  .image-container img {
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+}
+
+.equipment-count {
+  letter-spacing: 0.1rem;
+  font-size: small;
+  font-style: italic;
+}
+
+.right-panel {
+  width: 75%;
+  overflow: auto; /* Enable scrolling if content is too large */
+}
+
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  img {
     max-width: 95%;
     max-height: 95%;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  
-  .placeholder {
-    text-align: center;
-    color: #999;
-    font-style: italic;
-  }
-  
-  .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-  }
-  
-  .result-container {
-    max-width: 90%;
-    white-space: pre-wrap;
-  }
-  
-  mat-divider[vertical] {
-    width: 1px;
-    margin: 0 10px;
-    background-color: #ccc;
-  }
+}
 
-  :host ::ng-deep .mat-column-Marking {
-    white-space: nowrap;
-  }
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
 
-  .actions-column {
-    display: inline-flex;
-    align-items: center;
-  }
+.result-container {
+  max-width: 90%;
+  white-space: pre-wrap;
+}
 
-  :host ::ng-deep .mat-column-Marking {
-    white-space: nowrap;
-  }
+mat-divider[vertical] {
+  width: 1px;
+  margin: 0 10px;
+  background-color: #ccc;
+}
 
-  .truncate {
-    display: -webkit-box;
-    line-clamp: 2;
-    -webkit-line-clamp: 2; /* Limit to two lines */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal; /* Allow wrapping within two lines */
-    max-width: 18ch; /* Limit to approximately 18 characters wide */
-    line-height: 1.5em; /* Adjust line height for better spacing */
-    cursor: pointer; /* Indicate interactivity for the tooltip */
-  }
+:host ::ng-deep .mat-column-Marking {
+  white-space: nowrap;
+}
 
-  .center-cell {
-    text-align: center;
-  }
+.actions-column {
+  display: inline-flex;
+  align-items: center;
+}
 
-  .compliance-select {
-    width: 100% !important;
-  }
+:host ::ng-deep .mat-column-Marking {
+  white-space: nowrap;
+}
 
-  .invalid-input {
-    border: 2px solid red !important; /* Piros keret */
-    color: red !important; /* Piros szöveg */
-    background-color: #ffe6e6; /* Halvány piros háttér opcionálisan */
-  }
+.truncate {
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2; /* Limit to two lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* Allow wrapping within two lines */
+  max-width: 18ch; /* Limit to approximately 18 characters wide */
+  line-height: 1.5em; /* Adjust line height for better spacing */
+  cursor: pointer; /* Indicate interactivity for the tooltip */
+}
+
+.center-cell {
+  text-align: center;
+}
+
+.compliance-select {
+  width: 100% !important;
+}
+
+.invalid-input {
+  border: 2px solid red !important; /* Piros keret */
+  color: red !important; /* Piros szöveg */
+  background-color: #ffe6e6; /* Halvány piros háttér opcionálisan */
+}

@@ -47,6 +47,7 @@ export class PlateReaderComponent {
   Zone: string;
   Site: string;
   newEquipment: any = {}; // Az új eszköz adatai
+  allEquipmentData: any[] = []; // Az összes feldolgozott eszköz tárolására
   validations: { [key: string]: string[] } = {
     "Equipment Group": ["I", "II", '-', ""],
     "Equipment Category": ["M1", "M2", "1", "2", "3", '-', ""],
@@ -127,12 +128,13 @@ export class PlateReaderComponent {
   uploadImage(file: File) {
     this.loading = true;
     this.recognizedText = null;
+    // Csak az aktuális feldolgozáshoz szükséges változókat nullázzuk
     this.equipmentData = null;
     this.tableData = [];
-
+  
     const formData = new FormData();
     formData.append('file', file);
-
+  
     this.http.post<{ recognizedText: string }>(`${environment.apiUrl}/api/plate`, formData).subscribe({
       next: (response) => {
         this.recognizedText = response.recognizedText;
@@ -144,6 +146,7 @@ export class PlateReaderComponent {
       }
     });
   }
+  
 
   startNewConversation() {
     this.http.post<{ threadId: string }>(`${environment.apiUrl}/api/new-conversation`, { userId: 'defaultUser' })
@@ -163,6 +166,18 @@ export class PlateReaderComponent {
         }
       });
   }
+
+  clearAllData() {
+    if (confirm('Are you sure you want to clear all equipment data?')) {
+      this.allEquipmentData = [];
+      this.tableData = [];
+      this.equipmentData = null;
+      this.selectedRow = null;
+      this.editInProgress = false;
+      this.notifyUser('All equipment data has been cleared');
+    }
+  }
+  
 
   forwardRecognizedText(text: string) {
     if (!this.threadId) {
@@ -271,6 +286,11 @@ export class PlateReaderComponent {
           };
         });
   
+        // Az új adatokat hozzáadjuk az allEquipmentData tömbhöz
+        if (this.tableData && this.tableData.length > 0) {
+          this.allEquipmentData = [...this.allEquipmentData, ...this.tableData];
+        }
+  
         this.loading = false;
   
         // Beszélgetés törlése
@@ -282,6 +302,7 @@ export class PlateReaderComponent {
       }
     });
   }
+  
 
   deleteCurrentConversation() {
     if (!this.threadId) {
@@ -399,7 +420,7 @@ export class PlateReaderComponent {
 
   saveToDatabase() {
     this.loading = true;
-  
+    
     // Token kinyerése a localStorage-ból
     const token = localStorage.getItem('token');
     if (!token) {
@@ -408,77 +429,74 @@ export class PlateReaderComponent {
       this.loading = false;
       return;
     }
-  
+    
     const decodedToken = this.decodeToken(token);
-    if (!decodedToken?.userId) {
-      console.error('A token nem tartalmaz userId-t:', decodedToken);
-      this.snackBar.open('Invalid token: missing user ID.', 'Close', { duration: 3000, verticalPosition: 'top' });
+    if (!decodedToken?.userId || !decodedToken?.company) {
+      console.error('A token nem tartalmaz userId-t vagy company-t:', decodedToken);
+      this.snackBar.open('Invalid token: missing user ID or company.', 'Close', { duration: 3000, verticalPosition: 'top' });
       this.loading = false;
       return;
     }
-
-    if (!decodedToken?.company) {
-      console.error('A token nem tartalmaz company-t:', decodedToken);
-      this.snackBar.open('Invalid token: missing company.', 'Close', { duration: 3000, verticalPosition: 'top' });
-      this.loading = false;
-      return;
-    }
-
+  
     // Ellenőrizzük, hogy van-e mentendő adat
-    if (!this.equipmentData) {
+    if (this.allEquipmentData.length === 0) {
       console.error('Nincs adat amit menthetnék.');
       this.loading = false;
       return;
     }
-
-    // 📌 **Hozzáadjuk a Zone és Site mezőket a mentendő adatokhoz**
-    this.equipmentData.Zone = this.Zone;
-    this.equipmentData.Site = this.Site;
-    console.log('EQZ', this.equipmentData.Zone)
-    console.log('Z', this.Zone)
-    console.log('EQs', this.equipmentData.Site)
-    console.log('S', this.Site)
-
-    // TableData feldolgozása, ha van adat
-    if (this.tableData.length > 0) {
-      const first = this.tableData[0];
-      this.equipmentData["EqID"] = first["EqID"];
-      this.equipmentData.Manufacturer = first["Manufacturer"];
-      this.equipmentData["Model/Type"] = first["Model/Type"];
-      this.equipmentData["Serial Number"] = first["Serial Number"];
-      this.equipmentData["Equipment Type"] = first["Equipment Type"];
-      this.equipmentData["IP rating"] = first["IP rating"];
-      this.equipmentData["Certificate No"] = first["Certificate No"];
-      this.equipmentData["Max Ambient Temp"] = first["Max Ambient Temp"];
-      this.equipmentData["Other Info"] = first["Other Info"];
-      this.equipmentData["Compliance"] = first["Compliance"];
   
-      this.equipmentData["Ex Marking"] = this.tableData.map(row => ({
-        "Marking": row["Marking"],
-        "Equipment Group": row["Equipment Group"],
-        "Equipment Category": row["Equipment Category"],
-        "Environment": row["Environment"],
-        "Type of Protection": row["Type of Protection"],
-        "Gas / Dust Group": row["Gas / Dust Group"],
-        "Temperature Class": row["Temperature Class"],
-        "Equipment Protection Level": row["Equipment Protection Level"]
-      }));
-    }
-
-    // CreatedBy és Company mezők beállítása
-    this.equipmentData.CreatedBy = decodedToken.userId;
-    this.equipmentData.Company = decodedToken.company;
-
-    // 📌 **Mentés az adatbázisba**
-    this.http.post(`${environment.apiUrl}/api/exreg`, this.equipmentData)
+    // Előkészítjük az adatokat a mentéshez - minden eszköz megtartja a saját adatait
+    const equipmentToSave = this.allEquipmentData.map(item => {
+      // Ex Marking objektum létrehozása az aktuális eszközhöz
+      const exMarking = {
+        "Marking": item["Marking"] || "",
+        "Equipment Group": item["Equipment Group"] || "",
+        "Equipment Category": item["Equipment Category"] || "",
+        "Environment": item["Environment"] || "",
+        "Type of Protection": item["Type of Protection"] || "",
+        "Gas / Dust Group": item["Gas / Dust Group"] || "",
+        "Temperature Class": item["Temperature Class"] || "",
+        "Equipment Protection Level": item["Equipment Protection Level"] || ""
+      };
+      
+      // Összeállítjuk a teljes eszköz objektumot az aktuális elem adataival
+      return {
+        "EqID": item["EqID"] || "",
+        "Manufacturer": item["Manufacturer"] || "",
+        "Model/Type": item["Model/Type"] || "",
+        "Serial Number": item["Serial Number"] || "",
+        "Equipment Type": item["Equipment Type"] || "-",
+        "Ex Marking": [exMarking], // Minden eszköznek saját Ex Marking tömbje lesz
+        "IP rating": item["IP rating"] || "",
+        "Max Ambient Temp": item["Max Ambient Temp"] || "",
+        "Certificate No": item["Certificate No"] || "",
+        "X condition": {
+          "X": false,
+          "Specific": ""
+        },
+        "Other Info": item["Other Info"] || "",
+        "Compliance": item["Compliance"] || "NA",
+        "Zone": this.Zone && this.Zone.trim() ? this.Zone : null,
+        "Site": this.Site && this.Site.trim() ? this.Site : null,
+        "CreatedBy": decodedToken.userId,
+        "Company": decodedToken.company
+      };
+    });
+  
+    // Mentés az adatbázisba
+    this.http.post(`${environment.apiUrl}/api/exreg`, equipmentToSave)
       .subscribe({
         next: () => {
           console.log('Adatok sikeresen elmentve az adatbázisba.');
           this.snackBar.open('Equipment added to the ExRegister', 'Close', { duration: 3000, verticalPosition: 'top' });
           this.loading = false;
-          this.selectedImageUrl = null;
+          // Adatok törlése sikeres mentés után
+          this.equipmentData = null;
           this.tableData = [];
-
+          this.allEquipmentData = [];
+          this.recognizedText = null;
+          this.threadId = null;
+          this.selectedImageUrl = null;
         },
         error: (err) => {
           console.error('Hiba történt mentéskor:', err);
@@ -486,7 +504,25 @@ export class PlateReaderComponent {
           this.loading = false;
         },
       });
-}
+  }
+  
+  
+  // Segédfüggvény az eszközök csoportosításához EqID alapján
+  groupEquipmentByEqId(equipment: any[]): { [key: string]: any[] } {
+    const grouped: { [key: string]: any[] } = {};
+    
+    equipment.forEach(item => {
+      const eqId = item.EqID || 'unknown';
+      if (!grouped[eqId]) {
+        grouped[eqId] = [];
+      }
+      grouped[eqId].push(item);
+    });
+    
+    return grouped;
+  }
+  
+  
   
   decodeToken(token: string | null): any {
     if (!token) return null;
@@ -537,4 +573,7 @@ export class PlateReaderComponent {
         this.notifyUser(`Invalid value(s) for ${field}. Allowed format: ${field === "IP rating" ? "IPXY (e.g. IP65, IPX7)" : field === "Temperature Class" ? "T1-T6, T80, T100°C, etc." : this.validations[field].join(', ')}`);
     }
 }
+  get hasUnsavedData(): boolean {
+    return this.equipmentData !== null || this.tableData.length > 0;
+  }
 }

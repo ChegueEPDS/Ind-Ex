@@ -4,10 +4,25 @@
     <div class="left-panel">
       <div class="image-container" *ngIf="selectedImageUrl; else noImage">
         <img [src]="selectedImageUrl" alt="Uploaded image">
+        <button mat-button (click)="onFileSelect()" [disabled]="loading">
+          <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
+          Add new photo
+        </button>
       </div>
+      
+      <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
       <ng-template #noImage>
-        <div class="placeholder">No image</div>
+        <button mat-button (click)="onFileSelect()" [disabled]="loading">
+          <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
+          Add photo
+        </button>
+        <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
       </ng-template>
+      
+      <!-- Eszközök száma -->
+      <p class="equipment-count" *ngIf="allEquipmentData && allEquipmentData.length > 0">
+        No. of Equipment: <strong> {{ allEquipmentData.length }} </strong>
+      </p>
     </div>
   
     <mat-divider vertical></mat-divider>
@@ -20,9 +35,8 @@
         </div>
       </ng-container>
       
-      <ng-container *ngIf="!loading && tableData && selectedImageUrl">
-        <table mat-table [dataSource]="tableData" class="mat-elevation-z8" style="width:100%;">
-          
+      <ng-container *ngIf="!loading && ((tableData && selectedImageUrl) || (allEquipmentData && allEquipmentData.length > 0))">
+        <table mat-table [dataSource]="allEquipmentData" class="mat-elevation-z8" style="width:100%;">
 
           <!-- Eszköz ID -->
           <ng-container matColumnDef="EqID">
@@ -348,27 +362,26 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-        (click)="selectRow(row)" 
-        (dblclick)="toggleEditMode(row)"
-        [ngClass]="{'selected': selectedRow === row}">
-    </tr>
+            (click)="selectRow(row)" 
+            (dblclick)="toggleEditMode(row)"
+            [ngClass]="{'selected': selectedRow === row}">
+          </tr>
         </table>
       </ng-container>
     </div>
   </div>
 
   <div class="bottombar">
-    <button mat-flat-button color="primary" (click)="onFileSelect()" [disabled]="loading">
-      <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
-      Add photo
-    </button>
-    <input type="file" accept="image/*" #fileInputAzure (change)="onFileChange($event)" hidden>
-
-    <button mat-flat-button style="background-color: rgb(52, 51, 68);" (click)="saveToDatabase()" [disabled]="loading">
+    <button mat-flat-button (click)="saveToDatabase()" [disabled]="loading || (allEquipmentData.length === 0)">
       <mat-icon class="material-symbols-outlined">save</mat-icon>
-      Save
+      Save All ({{ allEquipmentData.length }})
+    </button>
+    
+    <button mat-flat-button color="warn" (click)="clearAllData()" [disabled]="loading || allEquipmentData.length === 0">
+      <mat-icon class="material-symbols-outlined">delete_sweep</mat-icon>
+      Clear All
     </button>
   </div>
 </div>

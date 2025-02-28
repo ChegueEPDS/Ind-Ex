@@ -15,11 +15,15 @@
     <mat-menu #mobileMenu="matMenu">
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/home']">
         <mat-icon class="material-symbols-outlined">home</mat-icon>
-        Kezdőlap
+        Home
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/assistant']">
         <mat-icon class="material-symbols-outlined">chat</mat-icon>
-        AI Asszisztens
+        AI Assistant
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/exreg']">
+        <mat-icon class="material-symbols-outlined">eye_tracking</mat-icon>
+        Dataplate Reader
       </button>
       <button mat-menu-item *ngIf="isLoggedIn" [routerLink]="['/sites']">
         <mat-icon class="material-symbols-outlined">work</mat-icon>
@@ -44,15 +48,15 @@
       <mat-menu #adminSubMenu="matMenu">
         <button mat-menu-item [routerLink]="['/stat']">
           <mat-icon class="material-symbols-outlined">bar_chart</mat-icon>
-          Statisztikák
+          Statistics
         </button>
         <button mat-menu-item [routerLink]="['/feedback']">
           <mat-icon class="material-symbols-outlined">feedback</mat-icon>
-          Visszajelzések
+          Feedbacks
         </button>
         <button mat-menu-item [routerLink]="['/admin']">
           <mat-icon class="material-symbols-outlined">settings</mat-icon>
-          Beállítások
+          Settings
         </button>
       </mat-menu>
       <mat-divider *ngIf="isLoggedIn"></mat-divider>
@@ -69,6 +73,7 @@
   <div class="menu" *ngIf="!isMobileView">
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/home']" routerLinkActive="active-link">HOME</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/assistant']" routerLinkActive="active-link">AI ASSISTANT</button>
+    <button mat-button *ngIf="isLoggedIn" [routerLink]="['/exreg']" routerLinkActive="active-link">DATAPLATE READER</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/sites']" routerLinkActive="active-link">Ex REGISTER</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/cert']" routerLinkActive="active-link">CERTIFICATES</button>
     <button mat-button *ngIf="isLoggedIn" [routerLink]="['/xls']" routerLinkActive="active-link">XLSX TOOL</button>
